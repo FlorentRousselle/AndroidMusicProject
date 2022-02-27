@@ -7,9 +7,9 @@ import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectD
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.dtoAsEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
+import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
 import com.supdeweb.androidmusicproject.data.remote.api.AlbumApi
-import com.supdeweb.androidmusicproject.model.AlbumModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

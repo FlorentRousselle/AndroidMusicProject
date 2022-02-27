@@ -2,8 +2,8 @@ package com.supdeweb.androidmusicproject.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
-import com.supdeweb.androidmusicproject.model.AlbumModel
 import com.supdeweb.androidmusicproject.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

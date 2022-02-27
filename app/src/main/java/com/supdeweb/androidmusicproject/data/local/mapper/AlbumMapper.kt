@@ -1,8 +1,8 @@
 package com.supdeweb.androidmusicproject.data.local.mapper
 
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
+import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.remote.dto.album.AlbumDto
-import com.supdeweb.androidmusicproject.model.AlbumModel
 
 /**
  * Map DatabaseVideos to domain entities

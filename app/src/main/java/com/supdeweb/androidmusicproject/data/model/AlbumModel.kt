@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.model
+package com.supdeweb.androidmusicproject.data.model
 
 class AlbumModel(
     val id: String,
