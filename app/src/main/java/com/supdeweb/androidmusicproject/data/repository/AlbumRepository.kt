@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.annotation.WorkerThread
 import com.supdeweb.androidmusicproject.data.local.dao.AlbumDao
 import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectDatabase
+import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore
+import com.supdeweb.androidmusicproject.data.local.datastore.PreferenceKeys
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.dtoAsEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.map
 class AlbumRepository(
     private val albumDao: AlbumDao,
     private val albumApi: AlbumApi,
+    private val datastore: AndroidMusicDataStore,
 ) {
 
     // OBSERVE
@@ -30,18 +33,32 @@ class AlbumRepository(
         return albumDao.observeFirstTenAlbums().map { it.entitiesAsModel() }
     }
 
+    /**
+     * return true if albums are already fetch
+     */
+    fun isAlbumAlreadyFetchObs(): Flow<Boolean?> {
+        return datastore.getValueObs(PreferencesKey = PreferenceKeys.IS_ALBUM_FETCH)
+    }
+
 
     //GET
 
     /**
-     * Remote get album, if albums is null the call api is dead
+     * Remote get albums, if albums are null the call api is dead
      */
-    suspend fun fetchAlbums(): Boolean {
-        val albums = albumApi.getAlbums().albums
-
-        albums?.dtoAsEntity()?.let { insertAllAlbums(it) }
-
-        return albums != null
+    suspend fun fetchAlbums(): Flow<Boolean?> {
+        val isAlreadyFetch =
+            datastore.getValue(PreferencesKey = PreferenceKeys.IS_ALBUM_FETCH) ?: false
+        // if albums are already fetch, don't call api
+        if (isAlreadyFetch.not()) {
+            val albums = albumApi.getAlbums().albums
+            albums?.dtoAsEntity()?.let {
+                insertAllAlbums(it)
+            }
+            // keep mind that albums are stocked to not call api
+            setIsAlbumFetch(!albums.isNullOrEmpty())
+        }
+        return isAlbumAlreadyFetchObs()
     }
 
     //INSERT
@@ -53,6 +70,13 @@ class AlbumRepository(
     @WorkerThread
     suspend fun insertAllAlbums(albums: List<AlbumEntity>) {
         albumDao.insertAllAlbums(albums)
+    }
+
+    /**
+     * memories the fetch call api of albums
+     */
+    suspend fun setIsAlbumFetch(isFetch: Boolean) {
+        datastore.storeValue(PreferenceKeys.IS_ALBUM_FETCH, isFetch)
     }
 
     //DELETE
@@ -71,7 +95,9 @@ class AlbumRepository(
                 if (instance == null) {
                     val db: AndroidMusicProjectDatabase =
                         AndroidMusicProjectDatabase.getInstance(context)
-                    val repo = AlbumRepository(db.albumDao, ApiUtils.albumApi)
+                    val repo = AlbumRepository(db.albumDao,
+                        ApiUtils.albumApi,
+                        AndroidMusicDataStore(context))
                     instance = repo
                     INSTANCE = instance
                 }
