@@ -25,14 +25,23 @@ class AlbumRepository(
     fun observeAllAlbums(): Flow<List<AlbumModel>> {
         return albumDao.observeAlbums().map { it.entitiesAsModel() }
     }
+
+    fun observeFirstTenAlbums(): Flow<List<AlbumModel>> {
+        return albumDao.observeFirstTenAlbums().map { it.entitiesAsModel() }
+    }
+
+
     //GET
 
     /**
-     * Remote get album
+     * Remote get album, if albums is null the call api is dead
      */
-    suspend fun fetchAlbums() {
+    suspend fun fetchAlbums(): Boolean {
         val albums = albumApi.getAlbums().albums
-        insertAllAlbums(albums.dtoAsEntity())
+
+        albums?.dtoAsEntity()?.let { insertAllAlbums(it) }
+
+        return albums != null
     }
 
     //INSERT

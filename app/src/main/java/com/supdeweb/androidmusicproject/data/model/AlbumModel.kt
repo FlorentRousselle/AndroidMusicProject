@@ -8,4 +8,5 @@ class AlbumModel(
     val sales: Int?,
     val description: String?,
     val imageUrl: String?,
+    val isFavorite: Boolean,
 )

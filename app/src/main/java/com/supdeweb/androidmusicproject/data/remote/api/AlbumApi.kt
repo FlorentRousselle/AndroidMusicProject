@@ -21,5 +21,5 @@ interface AlbumApi {
 
 data class AlbumResponse(
     @SerializedName("loved")
-    val albums: List<AlbumDto>,
+    val albums: List<AlbumDto>? = null,
 )

@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentHomeBinding
-import com.supdeweb.androidmusicproject.utils.DataStateEnum
+import com.supdeweb.androidmusicproject.ui.home.adapter.ClassementAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewPager()
         initViewModel()
         observeViewModel()
     }
@@ -74,29 +77,33 @@ class HomeFragment : Fragment() {
      *
      */
     private suspend fun collectStates() {
-        viewModel.albumState().collect {
-            when (it.currentStateEnum) {
-                DataStateEnum.IDLE,
-                DataStateEnum.ERROR,
-                -> {
-                    binding.fragmentHomeTv.visibility = View.GONE
-                    binding.fragmentHomePb.visibility = View.GONE
-                    binding.fragmentHomeTvError.visibility = View.VISIBLE
-                    binding.fragmentHomeTvError.text = it.errorMessage
-                }
-                DataStateEnum.LOADING -> {
-                    binding.fragmentHomeTvError.visibility = View.GONE
-                    binding.fragmentHomeTv.visibility = View.GONE
-                    binding.fragmentHomePb.visibility = View.VISIBLE
-                }
-                DataStateEnum.SUCCESS -> {
-                    binding.fragmentHomeTvError.visibility = View.GONE
-                    binding.fragmentHomePb.visibility = View.GONE
-                    binding.fragmentHomeTv.visibility = View.VISIBLE
-                    binding.fragmentHomeTv.text = it.albums?.component1()?.description
-                }
+        viewModel.toast().collect {
+            if (it.isNullOrEmpty().not()) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    /**
+     *
+     */
+    private fun initViewPager() {
+        binding.fragmentHomeVp.adapter =
+            ClassementAdapter(childFragmentManager, this.lifecycle)
+
+        TabLayoutMediator(
+            binding.fragmentHomeTl,
+            binding.fragmentHomeVp
+        ) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Titres"
+                }
+                1 -> {
+                    tab.text = "Albums"
+                }
+            }
+        }.attach()
     }
 
 }

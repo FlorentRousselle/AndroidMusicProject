@@ -27,4 +27,7 @@ class AlbumEntity(
 
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
+
+    @ColumnInfo(name = "is_favorite_album")
+    val isFavorite: Boolean,
 )

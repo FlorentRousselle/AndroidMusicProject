@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.utils
+package com.supdeweb.androidmusicproject.ui.utils
 
 enum class DataStateEnum {
     IDLE,

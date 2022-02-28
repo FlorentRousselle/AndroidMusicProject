@@ -22,8 +22,11 @@ interface AlbumDao {
     @Query("SELECT * FROM album WHERE id = :albumId")
     fun getAlbumById(albumId: String): List<AlbumEntity>
 
-    @Query("SELECT * FROM album ORDER BY title ASC")
+    @Query("SELECT * FROM album")
     fun observeAlbums(): Flow<List<AlbumEntity>>
+
+    @Query("SELECT * FROM album LIMIT 10")
+    fun observeFirstTenAlbums(): Flow<List<AlbumEntity>>
 
     @Query("DELETE FROM album WHERE id = :albumId")
     suspend fun deleteById(albumId: String)

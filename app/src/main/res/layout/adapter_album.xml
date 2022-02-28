@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/adapterAlbum_cl_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/spacing_m"
+        android:paddingTop="@dimen/spacing_m"
+        android:paddingEnd="@dimen/spacing_m"
+        android:paddingBottom="@dimen/spacing_m">
+
+        <TextView
+            android:id="@+id/adapterAlbum_tv_number"
+            style="@style/Title16PxBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/spacing_xl"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/adapterAlbum_iv_displayImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="@dimen/spacing_m"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/adapterAlbum_tv_number"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/adapterAlbum_tv_firstText"
+            style="@style/Title16PxBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_m"
+            android:layout_marginEnd="@dimen/spacing_m"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/adapterAlbum_iv_displayImage"
+            app:layout_constraintTop_toTopOf="@+id/adapterAlbum_iv_displayImage"
+            tools:text="A veeeeeeeeeeeeeeery looooong with first text " />
+
+        <TextView
+            android:id="@+id/adapterAlbum_tv_secondText"
+            style="@style/CaptionDetail12pxRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/adapterAlbum_tv_firstText"
+            app:layout_constraintStart_toStartOf="@+id/adapterAlbum_tv_firstText"
+            app:layout_constraintTop_toBottomOf="@+id/adapterAlbum_tv_firstText"
+            tools:text="Second text" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
