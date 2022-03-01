@@ -95,9 +95,12 @@ class AlbumRepository(
                 if (instance == null) {
                     val db: AndroidMusicProjectDatabase =
                         AndroidMusicProjectDatabase.getInstance(context)
-                    val repo = AlbumRepository(db.albumDao,
+                    val datastore = AndroidMusicDataStore(context)
+                    val repo = AlbumRepository(
+                        db.albumDao,
                         ApiUtils.albumApi,
-                        AndroidMusicDataStore(context))
+                        datastore
+                    )
                     instance = repo
                     INSTANCE = instance
                 }

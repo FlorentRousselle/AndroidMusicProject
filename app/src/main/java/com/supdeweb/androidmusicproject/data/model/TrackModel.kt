@@ -1,12 +1,13 @@
 package com.supdeweb.androidmusicproject.data.model
 
-class AlbumModel(
+class TrackModel(
     val id: String,
     val title: String?,
     val artistId: String?,
     val artistName: String?,
+    val albumId: String?,
     val style: String?,
-    val sales: Int?,
+    val score: Double?,
     val description: String?,
     val imageUrl: String?,
     val isFavorite: Boolean,

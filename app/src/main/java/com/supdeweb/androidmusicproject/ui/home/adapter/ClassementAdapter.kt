@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.supdeweb.androidmusicproject.ui.home.adapter.album.AlbumFragment
-import com.supdeweb.androidmusicproject.ui.home.adapter.title.TitleFragment
+import com.supdeweb.androidmusicproject.ui.home.adapter.track.TrackFragment
 
 
 private const val NUM_PAGES = 2
@@ -20,9 +20,9 @@ class ClassementAdapter(fragment: FragmentManager, lifecycle: Lifecycle) :
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> TitleFragment()
+            0 -> TrackFragment()
             1 -> AlbumFragment()
-            else -> TitleFragment() //0
+            else -> TrackFragment() //0
         }
     }
 }

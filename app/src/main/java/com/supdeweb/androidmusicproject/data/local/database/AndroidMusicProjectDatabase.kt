@@ -5,17 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.supdeweb.androidmusicproject.data.local.dao.AlbumDao
+import com.supdeweb.androidmusicproject.data.local.dao.TrackDao
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
+import com.supdeweb.androidmusicproject.data.local.entity.TrackEntity
 
 
 @Database(
-    entities = [AlbumEntity::class],
+    entities = [
+        AlbumEntity::class,
+        TrackEntity::class
+    ],
     version = 1,
     exportSchema = false
 )
 abstract class AndroidMusicProjectDatabase : RoomDatabase() {
 
     abstract val albumDao: AlbumDao
+    abstract val trackDao: TrackDao
 
     companion object {
 

@@ -16,7 +16,7 @@ interface AlbumDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllAlbums(albums: List<AlbumEntity>)
 
-    @Query("SELECT * FROM album ORDER BY title ASC")
+    @Query("SELECT * FROM album ORDER BY track ASC")
     fun getAlbums(): List<AlbumEntity>
 
     @Query("SELECT * FROM album WHERE id = :albumId")

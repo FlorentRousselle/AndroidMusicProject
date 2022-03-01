@@ -1,86 +1,91 @@
 package com.supdeweb.androidmusicproject.data.local.mapper
 
-import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
-import com.supdeweb.androidmusicproject.data.model.AlbumModel
-import com.supdeweb.androidmusicproject.data.remote.dto.AlbumDto
+import com.supdeweb.androidmusicproject.data.local.entity.TrackEntity
+import com.supdeweb.androidmusicproject.data.model.TrackModel
+import com.supdeweb.androidmusicproject.data.remote.dto.TrackDto
 
 /**
  * Map DatabaseVideos to domain entities
  */
-fun List<AlbumDto>.dtoAsEntity(): List<AlbumEntity> {
+fun List<TrackDto>.dtoAsEntity(): List<TrackEntity> {
     return map {
-        AlbumEntity(
-            id = it.idAlbum,
-            title = it.strAlbum,
+        TrackEntity(
+            id = it.idTrack,
+            title = it.strTrack,
             artistId = it.idArtist,
             artistName = it.strArtist,
+            albumId = it.idAlbum,
             style = it.strStyle,
-            sales = it.intSales?.toInt(),
+            score = it.intScore,
             description = it.strDescriptionFR,
-            imageUrl = it.strAlbumThumb,
-            isFavorite = false,
+            imageUrl = it.strTrackThumb,
+            isFavorite = false
         )
     }
 }
 
-fun List<AlbumDto>.dtoAsModel(): List<AlbumModel> {
+fun List<TrackDto>.dtoAsModel(): List<TrackModel> {
     return map {
-        AlbumModel(
-            id = it.idAlbum,
+        TrackModel(
+            id = it.idTrack,
             title = it.strAlbum,
             artistId = it.idArtist,
             artistName = it.strArtist,
             style = it.strStyle,
-            sales = it.intSales?.toInt(),
+            score = it.intScore,
             description = it.strDescriptionFR,
-            imageUrl = it.strAlbumThumb,
+            imageUrl = it.strTrackThumb,
             isFavorite = false,
+            albumId = it.idAlbum,
         )
     }
 }
 
-fun List<AlbumModel>.modelAsEntity(): List<AlbumEntity> {
+fun List<TrackModel>.modelAsEntity(): List<TrackEntity> {
     return map {
-        AlbumEntity(
+        TrackEntity(
             id = it.id,
             title = it.title,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
-            sales = it.sales,
+            score = it.score,
             description = it.description,
             imageUrl = it.imageUrl,
             isFavorite = false,
+            albumId = it.albumId,
         )
     }
 }
 
-fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
+fun List<TrackEntity>.entitiesAsModel(): List<TrackModel> {
     return map {
-        AlbumModel(
+        TrackModel(
             id = it.id,
             title = it.title,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
-            sales = it.sales,
+            score = it.score,
             description = it.description,
             imageUrl = it.imageUrl,
             isFavorite = it.isFavorite,
+            albumId = it.albumId,
         )
     }
 }
 
-fun AlbumEntity.asModel(): AlbumModel {
-    return AlbumModel(
+fun TrackEntity.asModel(): TrackModel {
+    return TrackModel(
         id = this.id,
         title = this.title,
         artistId = this.artistId,
         artistName = this.artistName,
         style = this.style,
-        sales = this.sales,
+        score = this.score,
         description = this.description,
         imageUrl = this.imageUrl,
         isFavorite = this.isFavorite,
+        albumId = this.albumId,
     )
 }

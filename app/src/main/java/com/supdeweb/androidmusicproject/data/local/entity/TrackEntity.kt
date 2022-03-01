@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "album")
-class AlbumEntity(
+@Entity(tableName = "track")
+class TrackEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,
@@ -13,17 +13,20 @@ class AlbumEntity(
     @ColumnInfo(name = "track")
     val title: String?,
 
-    @ColumnInfo(name = "album_artist_id")
+    @ColumnInfo(name = "track_artist_id")
     val artistId: String?,
 
-    @ColumnInfo(name = "album_artist_name")
+    @ColumnInfo(name = "track_artist_name")
     val artistName: String?,
+
+    @ColumnInfo(name = "track_album_id")
+    val albumId: String?,
 
     @ColumnInfo(name = "style")
     val style: String?,
 
-    @ColumnInfo(name = "sales")
-    val sales: Int?,
+    @ColumnInfo(name = "score")
+    val score: Double?,
 
     @ColumnInfo(name = "description")
     val description: String?,
@@ -31,6 +34,6 @@ class AlbumEntity(
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
 
-    @ColumnInfo(name = "is_favorite_album")
+    @ColumnInfo(name = "is_favorite_track")
     val isFavorite: Boolean,
 )

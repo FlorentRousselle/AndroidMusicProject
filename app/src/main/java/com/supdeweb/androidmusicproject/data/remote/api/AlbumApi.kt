@@ -1,7 +1,7 @@
 package com.supdeweb.androidmusicproject.data.remote.api
 
 import com.google.gson.annotations.SerializedName
-import com.supdeweb.androidmusicproject.data.remote.dto.album.AlbumDto
+import com.supdeweb.androidmusicproject.data.remote.dto.AlbumDto
 import retrofit2.http.GET
 
 interface AlbumApi {

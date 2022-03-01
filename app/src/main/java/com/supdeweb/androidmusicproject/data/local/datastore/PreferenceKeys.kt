@@ -16,6 +16,6 @@ object PreferenceKeys {
     //
     // TITLE
     // =========================================================
-    val IS_TITLE_FETCH = booleanPreferencesKey("is_album_fetch")
+    val IS_TRACK_FETCH = booleanPreferencesKey("is_album_fetch")
 
 }

@@ -1,19 +1,19 @@
 package com.supdeweb.androidmusicproject.data.local.datastore
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore.Companion.ANDROID_MUSIC_DATASTORE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 
-class AndroidMusicDataStore(val context: Context) {
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = ANDROID_MUSIC_DATASTORE)
 
-    val Context.dataStore by preferencesDataStore(
-        name = ANDROID_MUSIC_DATASTORE
-    )
+class AndroidMusicDataStore(val context: Context) {
 
     suspend inline fun <reified T> storeValue(key: Preferences.Key<T>, value: Any) {
         context.dataStore.edit {
@@ -50,6 +50,6 @@ class AndroidMusicDataStore(val context: Context) {
     }
 
     companion object {
-        private const val ANDROID_MUSIC_DATASTORE = "android_music_datastore"
+        const val ANDROID_MUSIC_DATASTORE = "android_music_datastore"
     }
 }

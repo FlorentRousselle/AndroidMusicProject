@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
+import com.supdeweb.androidmusicproject.data.repository.TrackRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentHomeBinding
 import com.supdeweb.androidmusicproject.ui.home.adapter.ClassementAdapter
 import kotlinx.coroutines.flow.collect
@@ -56,7 +57,8 @@ class HomeFragment : Fragment() {
         context?.let {
             val vmFactory =
                 HomeViewModelFactory(
-                    AlbumRepository.getInstance(it)
+                    AlbumRepository.getInstance(it),
+                    TrackRepository.getInstance(it)
                 )
             viewModel = ViewModelProvider(this, vmFactory)[HomeViewModel::class.java]
         }
