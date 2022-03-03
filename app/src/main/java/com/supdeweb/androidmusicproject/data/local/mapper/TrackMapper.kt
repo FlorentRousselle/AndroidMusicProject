@@ -1,8 +1,8 @@
-package com.supdeweb.androidmusicproject.data.local.mapper
+package com.supdeweb.androidmusicproject.data.local.mapper.track
 
 import com.supdeweb.androidmusicproject.data.local.entity.TrackEntity
 import com.supdeweb.androidmusicproject.data.model.TrackModel
-import com.supdeweb.androidmusicproject.data.remote.dto.TrackDto
+import com.supdeweb.androidmusicproject.data.remote.dto.track.TrackDto
 
 /**
  * Map DatabaseVideos to domain entities
@@ -28,7 +28,7 @@ fun List<TrackDto>.dtoAsModel(): List<TrackModel> {
     return map {
         TrackModel(
             id = it.idTrack,
-            title = it.strAlbum,
+            trackName = it.strAlbum,
             artistId = it.idArtist,
             artistName = it.strArtist,
             style = it.strStyle,
@@ -37,6 +37,7 @@ fun List<TrackDto>.dtoAsModel(): List<TrackModel> {
             imageUrl = it.strTrackThumb,
             isFavorite = false,
             albumId = it.idAlbum,
+            chartPlace = null,
         )
     }
 }
@@ -45,7 +46,7 @@ fun List<TrackModel>.modelAsEntity(): List<TrackEntity> {
     return map {
         TrackEntity(
             id = it.id,
-            title = it.title,
+            title = it.trackName,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
@@ -62,7 +63,7 @@ fun List<TrackEntity>.entitiesAsModel(): List<TrackModel> {
     return map {
         TrackModel(
             id = it.id,
-            title = it.title,
+            trackName = it.title,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
@@ -71,6 +72,7 @@ fun List<TrackEntity>.entitiesAsModel(): List<TrackModel> {
             imageUrl = it.imageUrl,
             isFavorite = it.isFavorite,
             albumId = it.albumId,
+            chartPlace = null,
         )
     }
 }
@@ -78,7 +80,7 @@ fun List<TrackEntity>.entitiesAsModel(): List<TrackModel> {
 fun TrackEntity.asModel(): TrackModel {
     return TrackModel(
         id = this.id,
-        title = this.title,
+        trackName = this.title,
         artistId = this.artistId,
         artistName = this.artistName,
         style = this.style,
@@ -87,5 +89,6 @@ fun TrackEntity.asModel(): TrackModel {
         imageUrl = this.imageUrl,
         isFavorite = this.isFavorite,
         albumId = this.albumId,
+        chartPlace = null,
     )
 }

@@ -39,7 +39,7 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
                 .transform(CenterCrop(), RoundedCorners(radius))
                 .into(holder.binding.adapterClassementIvDisplayImage)
 
-            holder.binding.adapterClassementTvFirstText.text = album.title
+            holder.binding.adapterClassementTvFirstText.text = album.albumName
             holder.binding.adapterClassementTvSecondText.text = album.artistName
             holder.binding.adapterClassementTvNumber.text = ((position.plus(1)).toString())
         }
@@ -64,7 +64,7 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
                 oldItem: AlbumModel,
                 newItem: AlbumModel,
             ): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem.albumName == newItem.albumName
                         && oldItem.isFavorite == newItem.isFavorite
                         && oldItem.imageUrl == newItem.imageUrl
                         && oldItem.sales == newItem.sales

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
+import com.supdeweb.androidmusicproject.data.tools.Status
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +32,44 @@ class AlbumViewModel(private val albumRepo: AlbumRepository) : ViewModel() {
     }
 
     init {
-        observeAllAlbums()
+        getTrendingAlbums()
+    }
+
+    fun getTrendingAlbums() {
+        albumRepo.getTrendingAlbums { res ->
+            viewModelScope.launch {
+                albumsFlow.emit(
+                    AlbumState(
+                        currentStateEnum = DataStateEnum.LOADING,
+                    )
+                )
+                when (res.status) {
+                    Status.SUCCESS -> {
+                        albumsFlow.emit(
+                            AlbumState(
+                                currentStateEnum = DataStateEnum.SUCCESS,
+                                albums = res.data?.sortedBy { it.chartPlace }
+                            )
+                        )
+                    }
+                    Status.ERROR -> {
+                        albumsFlow.emit(
+                            AlbumState(
+                                currentStateEnum = DataStateEnum.ERROR,
+                                errorMessage = res.message
+                            )
+                        )
+                    }
+                    Status.LOADING -> {
+                        albumsFlow.emit(
+                            AlbumState(
+                                currentStateEnum = DataStateEnum.LOADING,
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun observeAllAlbums() {
@@ -62,14 +100,11 @@ class AlbumViewModel(private val albumRepo: AlbumRepository) : ViewModel() {
                     albumsFlow.emit(
                         AlbumState(
                             currentStateEnum = DataStateEnum.ERROR,
-                            albums = null,
                             errorMessage = e.message
                         )
                     )
                 }
             }
-
-
         }
     }
 }

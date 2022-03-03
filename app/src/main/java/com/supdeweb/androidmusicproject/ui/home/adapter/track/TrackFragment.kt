@@ -34,6 +34,7 @@ class TrackFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         observeViewModel()
+        initButton()
     }
 
     /**
@@ -90,28 +91,30 @@ class TrackFragment : Fragment() {
         viewModel.trackState().collect {
             when (it.currentStateEnum) {
                 DataStateEnum.IDLE -> {
-                    binding.fragmentTrackClRoot.visibility = View.GONE
                     binding.fragmentTrackPb.visibility = View.GONE
-                    binding.fragmentTrackTvError.visibility = View.GONE
+                    binding.fragmentTrackLlError.visibility = View.GONE
                 }
                 DataStateEnum.ERROR -> {
-                    binding.fragmentTrackClRoot.visibility = View.VISIBLE
                     binding.fragmentTrackPb.visibility = View.GONE
-                    binding.fragmentTrackTvError.visibility = View.VISIBLE
-                    binding.fragmentTrackTvError.text = "Error" //TODO: put message
+                    binding.fragmentTrackLlError.visibility = View.VISIBLE
+                    binding.fragmentTrackTvError.text = it.errorMessage
                 }
                 DataStateEnum.LOADING -> {
-                    binding.fragmentTrackClRoot.visibility = View.VISIBLE
                     binding.fragmentTrackPb.visibility = View.VISIBLE
-                    binding.fragmentTrackTvError.visibility = View.GONE
+                    binding.fragmentTrackLlError.visibility = View.GONE
                 }
                 DataStateEnum.SUCCESS -> {
-                    binding.fragmentTrackClRoot.visibility = View.VISIBLE
                     binding.fragmentTrackPb.visibility = View.GONE
-                    binding.fragmentTrackTvError.visibility = View.GONE
+                    binding.fragmentTrackLlError.visibility = View.GONE
                     adapter.submitList(it.tracks)
                 }
             }
+        }
+    }
+
+    private fun initButton() {
+        binding.fragmentTrackBtError.setOnClickListener {
+            viewModel.getTrendingTracks()
         }
     }
 

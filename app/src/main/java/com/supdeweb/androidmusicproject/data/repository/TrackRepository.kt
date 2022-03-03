@@ -7,13 +7,19 @@ import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectD
 import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore
 import com.supdeweb.androidmusicproject.data.local.datastore.PreferenceKeys
 import com.supdeweb.androidmusicproject.data.local.entity.TrackEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.dtoAsEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
+import com.supdeweb.androidmusicproject.data.local.mapper.album.trackDtoAsModel
+import com.supdeweb.androidmusicproject.data.local.mapper.track.dtoAsEntity
+import com.supdeweb.androidmusicproject.data.local.mapper.track.entitiesAsModel
 import com.supdeweb.androidmusicproject.data.model.TrackModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
 import com.supdeweb.androidmusicproject.data.remote.api.TrackApi
+import com.supdeweb.androidmusicproject.data.remote.api.TrendingResponse
+import com.supdeweb.androidmusicproject.data.tools.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -83,6 +89,26 @@ class TrackRepository(
     suspend fun deleteAllTracks() {
         trackDao.deleteAll()
     }
+
+
+    //----------- REMOTE ---------------
+
+
+    fun getTrendingTracks(resource: (Resource<List<TrackModel>?>) -> Unit) {
+        trackApi.getTrendingTracks().enqueue(object : Callback<TrendingResponse> {
+            override fun onResponse(
+                call: Call<TrendingResponse>,
+                response: Response<TrendingResponse>,
+            ) {
+                return resource(Resource.success(response.body()?.trending?.trackDtoAsModel()))
+            }
+
+            override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
+                return resource(Resource.error(t.message ?: "Cannot fetch trending tracks", null))
+            }
+        })
+    }
+
 
     companion object {
         @Volatile

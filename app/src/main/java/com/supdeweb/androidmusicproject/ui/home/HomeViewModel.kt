@@ -34,7 +34,7 @@ class HomeViewModel(
             albumRepo.fetchAlbums().collect {
                 val isFetch = it ?: false
                 if (isFetch.not()) {
-                    _toast.emit("Cannot fetch albums")
+                    _toast.emit("Cannot fetch albumDtos")
                 }
             }
         }

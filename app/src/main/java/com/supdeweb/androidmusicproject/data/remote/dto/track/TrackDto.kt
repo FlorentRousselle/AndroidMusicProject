@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.data.remote.dto
+package com.supdeweb.androidmusicproject.data.remote.dto.track
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

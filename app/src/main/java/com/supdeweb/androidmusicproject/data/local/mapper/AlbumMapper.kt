@@ -1,8 +1,8 @@
-package com.supdeweb.androidmusicproject.data.local.mapper
+package com.supdeweb.androidmusicproject.data.local.mapper.album
 
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
-import com.supdeweb.androidmusicproject.data.remote.dto.AlbumDto
+import com.supdeweb.androidmusicproject.data.remote.dto.album.AlbumDto
 
 /**
  * Map DatabaseVideos to domain entities
@@ -27,7 +27,7 @@ fun List<AlbumDto>.dtoAsModel(): List<AlbumModel> {
     return map {
         AlbumModel(
             id = it.idAlbum,
-            title = it.strAlbum,
+            albumName = it.strAlbum,
             artistId = it.idArtist,
             artistName = it.strArtist,
             style = it.strStyle,
@@ -35,6 +35,7 @@ fun List<AlbumDto>.dtoAsModel(): List<AlbumModel> {
             description = it.strDescriptionFR,
             imageUrl = it.strAlbumThumb,
             isFavorite = false,
+            chartPlace = null,
         )
     }
 }
@@ -43,7 +44,7 @@ fun List<AlbumModel>.modelAsEntity(): List<AlbumEntity> {
     return map {
         AlbumEntity(
             id = it.id,
-            title = it.title,
+            title = it.albumName,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
@@ -59,7 +60,7 @@ fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
     return map {
         AlbumModel(
             id = it.id,
-            title = it.title,
+            albumName = it.title,
             artistId = it.artistId,
             artistName = it.artistName,
             style = it.style,
@@ -67,6 +68,7 @@ fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
             description = it.description,
             imageUrl = it.imageUrl,
             isFavorite = it.isFavorite,
+            chartPlace = null,
         )
     }
 }
@@ -74,7 +76,7 @@ fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
 fun AlbumEntity.asModel(): AlbumModel {
     return AlbumModel(
         id = this.id,
-        title = this.title,
+        albumName = this.title,
         artistId = this.artistId,
         artistName = this.artistName,
         style = this.style,
@@ -82,5 +84,6 @@ fun AlbumEntity.asModel(): AlbumModel {
         description = this.description,
         imageUrl = this.imageUrl,
         isFavorite = this.isFavorite,
+        chartPlace = null,
     )
 }

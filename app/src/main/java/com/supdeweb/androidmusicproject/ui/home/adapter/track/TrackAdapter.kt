@@ -39,7 +39,7 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
                 .transform(CenterCrop(), RoundedCorners(radius))
                 .into(holder.binding.adapterClassementIvDisplayImage)
 
-            holder.binding.adapterClassementTvFirstText.text = track.title
+            holder.binding.adapterClassementTvFirstText.text = track.trackName
             holder.binding.adapterClassementTvSecondText.text = track.artistName
             holder.binding.adapterClassementTvNumber.text = ((position.plus(1)).toString())
         }
@@ -64,7 +64,7 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
                 oldItem: TrackModel,
                 newItem: TrackModel,
             ): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem.trackName == newItem.trackName
                         && oldItem.isFavorite == newItem.isFavorite
                         && oldItem.imageUrl == newItem.imageUrl
                         && oldItem.score == newItem.score

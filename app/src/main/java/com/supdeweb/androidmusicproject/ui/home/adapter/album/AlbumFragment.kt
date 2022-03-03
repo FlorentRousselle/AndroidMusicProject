@@ -34,6 +34,7 @@ class AlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         observeViewModel()
+        initButton()
     }
 
     /**
@@ -90,29 +91,30 @@ class AlbumFragment : Fragment() {
         viewModel.albumState().collect {
             when (it.currentStateEnum) {
                 DataStateEnum.IDLE -> {
-                    binding.fragmentAlbumClRoot.visibility = View.GONE
                     binding.fragmentAlbumPb.visibility = View.GONE
-                    binding.fragmentAlbumTvError.visibility = View.GONE
+                    binding.fragmentAlbumLlError.visibility = View.GONE
                 }
                 DataStateEnum.ERROR -> {
-                    binding.fragmentAlbumClRoot.visibility = View.VISIBLE
                     binding.fragmentAlbumPb.visibility = View.GONE
-                    binding.fragmentAlbumTvError.visibility = View.VISIBLE
-                    binding.fragmentAlbumTvError.text = "Error" //TODO: put message
+                    binding.fragmentAlbumLlError.visibility = View.VISIBLE
+                    binding.fragmentAlbumTvError.text = it.errorMessage
                 }
                 DataStateEnum.LOADING -> {
-                    binding.fragmentAlbumClRoot.visibility = View.VISIBLE
                     binding.fragmentAlbumPb.visibility = View.VISIBLE
-                    binding.fragmentAlbumTvError.visibility = View.GONE
+                    binding.fragmentAlbumLlError.visibility = View.GONE
                 }
                 DataStateEnum.SUCCESS -> {
-                    binding.fragmentAlbumClRoot.visibility = View.VISIBLE
                     binding.fragmentAlbumPb.visibility = View.GONE
-                    binding.fragmentAlbumTvError.visibility = View.GONE
+                    binding.fragmentAlbumLlError.visibility = View.GONE
                     adapter.submitList(it.albums)
                 }
             }
         }
     }
 
+    private fun initButton() {
+        binding.fragmentAlbumBtError.setOnClickListener {
+            viewModel.getTrendingAlbums()
+        }
+    }
 }

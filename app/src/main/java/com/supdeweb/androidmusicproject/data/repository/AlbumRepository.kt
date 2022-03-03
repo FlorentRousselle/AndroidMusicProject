@@ -7,13 +7,19 @@ import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectD
 import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore
 import com.supdeweb.androidmusicproject.data.local.datastore.PreferenceKeys
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.dtoAsEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
+import com.supdeweb.androidmusicproject.data.local.mapper.album.albumDtoAsModel
+import com.supdeweb.androidmusicproject.data.local.mapper.album.dtoAsEntity
+import com.supdeweb.androidmusicproject.data.local.mapper.album.entitiesAsModel
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
 import com.supdeweb.androidmusicproject.data.remote.api.AlbumApi
+import com.supdeweb.androidmusicproject.data.remote.api.TrendingResponse
+import com.supdeweb.androidmusicproject.data.tools.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
@@ -34,7 +40,7 @@ class AlbumRepository(
     }
 
     /**
-     * return true if albums are already fetch
+     * return true if albumDtos are already fetch
      */
     fun isAlbumAlreadyFetchObs(): Flow<Boolean?> {
         return datastore.getValueObs(PreferencesKey = PreferenceKeys.IS_ALBUM_FETCH)
@@ -44,18 +50,18 @@ class AlbumRepository(
     //GET
 
     /**
-     * Remote get albums, if albums are null the call api is dead
+     * Remote get albumDtos, if albumDtos are null the call api is dead
      */
     suspend fun fetchAlbums(): Flow<Boolean?> {
         val isAlreadyFetch =
             datastore.getValue(PreferencesKey = PreferenceKeys.IS_ALBUM_FETCH) ?: false
-        // if albums are already fetch, don't call api
+        // if albumDtos are already fetch, don't call api
         if (isAlreadyFetch.not()) {
             val albums = albumApi.getAlbums().albums
             albums?.dtoAsEntity()?.let {
                 insertAllAlbums(it)
             }
-            // keep mind that albums are stocked to not call api
+            // keep mind that albumDtos are stocked to not call api
             setIsAlbumFetch(!albums.isNullOrEmpty())
         }
         return isAlbumAlreadyFetchObs()
@@ -73,7 +79,7 @@ class AlbumRepository(
     }
 
     /**
-     * memories the fetch call api of albums
+     * memories the fetch call api of albumDtos
      */
     suspend fun setIsAlbumFetch(isFetch: Boolean) {
         datastore.storeValue(PreferenceKeys.IS_ALBUM_FETCH, isFetch)
@@ -83,6 +89,26 @@ class AlbumRepository(
     suspend fun deleteAllAlbums() {
         albumDao.deleteAll()
     }
+
+
+    //----------- REMOTE ---------------
+
+
+    fun getTrendingAlbums(resource: (Resource<List<AlbumModel>?>) -> Unit) {
+        albumApi.getTrendingAlbums().enqueue(object : Callback<TrendingResponse> {
+            override fun onResponse(
+                call: Call<TrendingResponse>,
+                response: Response<TrendingResponse>,
+            ) {
+                return resource(Resource.success(response.body()?.trending?.albumDtoAsModel()))
+            }
+
+            override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
+                return resource(Resource.error(t.message ?: "Cannot fetch trending album", null))
+            }
+        })
+    }
+
 
     companion object {
         @Volatile
