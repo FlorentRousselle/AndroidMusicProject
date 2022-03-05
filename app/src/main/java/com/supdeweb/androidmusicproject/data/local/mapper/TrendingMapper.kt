@@ -33,7 +33,7 @@ fun List<TrendingDto>.trackDtoAsModel(): List<TrackModel> {
             artistName = it.strArtist,
             style = null,
             description = null,
-            imageUrl = it.strAlbumThumb,
+            imageUrl = it.strTrackThumb,
             isFavorite = false,
             chartPlace = it.intChartPlace?.toInt(),
             albumId = it.idAlbum,

@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.ui.home
+package com.supdeweb.androidmusicproject.ui.rank
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +13,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
 import com.supdeweb.androidmusicproject.data.repository.TrackRepository
-import com.supdeweb.androidmusicproject.databinding.FragmentHomeBinding
-import com.supdeweb.androidmusicproject.ui.home.adapter.ClassementAdapter
+import com.supdeweb.androidmusicproject.databinding.FragmentRankBinding
+import com.supdeweb.androidmusicproject.ui.rank.adapter.RankAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class RankFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, null, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rank, null, false)
 
 
         return binding.root
@@ -42,32 +42,32 @@ class HomeFragment : Fragment() {
     /**
      * the view model
      */
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: RankViewModel
 
     /**
      * the binding
      */
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentRankBinding
 
 
     /**
-     * init [HomeViewModel] with its factories
+     * init [RankViewModel] with its factories
      */
     private fun initViewModel() {
         context?.let {
             val vmFactory =
-                HomeViewModelFactory(
+                RankViewModelFactory(
                     AlbumRepository.getInstance(it),
                     TrackRepository.getInstance(it)
                 )
-            viewModel = ViewModelProvider(this, vmFactory)[HomeViewModel::class.java]
+            viewModel = ViewModelProvider(this, vmFactory)[RankViewModel::class.java]
         }
 
     }
 
 
     /**
-     * observe value in [HomeViewModel]
+     * observe value in [RankViewModel]
      */
     private fun observeViewModel() {
         lifecycleScope.launch {
@@ -90,12 +90,12 @@ class HomeFragment : Fragment() {
      *
      */
     private fun initViewPager() {
-        binding.fragmentHomeVp.adapter =
-            ClassementAdapter(childFragmentManager, this.lifecycle)
+        binding.fragmentRankVp.adapter =
+            RankAdapter(childFragmentManager, this.lifecycle)
 
         TabLayoutMediator(
-            binding.fragmentHomeTl,
-            binding.fragmentHomeVp
+            binding.fragmentRankTl,
+            binding.fragmentRankVp
         ) { tab, position ->
             when (position) {
                 0 -> {

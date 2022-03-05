@@ -1,9 +1,9 @@
-package com.supdeweb.androidmusicproject.ui.home.adapter.album
+package com.supdeweb.androidmusicproject.ui.rank.adapter.track
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.supdeweb.androidmusicproject.data.model.AlbumModel
-import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
+import com.supdeweb.androidmusicproject.data.model.TrackModel
+import com.supdeweb.androidmusicproject.data.repository.TrackRepository
 import com.supdeweb.androidmusicproject.data.tools.Status
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
@@ -12,18 +12,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class AlbumViewModel(private val albumRepo: AlbumRepository) : ViewModel() {
+class TrackViewModel(private val trackRepo: TrackRepository) : ViewModel() {
     /**
      *
      */
-    private val albumsFlow = MutableStateFlow(
-        AlbumState(
+    private val tracksFlow = MutableStateFlow(
+        TrackState(
             currentStateEnum = DataStateEnum.IDLE,
         )
     )
 
-    fun albumState(): Flow<AlbumState> {
-        return albumsFlow.asStateFlow()
+    fun trackState(): Flow<TrackState> {
+        return tracksFlow.asStateFlow()
     }
 
     private val _toast = MutableStateFlow(String())
@@ -32,37 +32,37 @@ class AlbumViewModel(private val albumRepo: AlbumRepository) : ViewModel() {
     }
 
     init {
-        getTrendingAlbums()
+        getTrendingTracks()
     }
 
-    fun getTrendingAlbums() {
-        albumRepo.getTrendingAlbums { res ->
+    fun getTrendingTracks() {
+        trackRepo.getTrendingTracks { res ->
             viewModelScope.launch {
-                albumsFlow.emit(
-                    AlbumState(
+                tracksFlow.emit(
+                    TrackState(
                         currentStateEnum = DataStateEnum.LOADING,
                     )
                 )
                 when (res.status) {
                     Status.SUCCESS -> {
-                        albumsFlow.emit(
-                            AlbumState(
+                        tracksFlow.emit(
+                            TrackState(
                                 currentStateEnum = DataStateEnum.SUCCESS,
-                                albums = res.data?.sortedBy { it.chartPlace }
+                                tracks = res.data?.sortedBy { it.chartPlace }
                             )
                         )
                     }
                     Status.ERROR -> {
-                        albumsFlow.emit(
-                            AlbumState(
+                        tracksFlow.emit(
+                            TrackState(
                                 currentStateEnum = DataStateEnum.ERROR,
                                 errorMessage = res.message
                             )
                         )
                     }
                     Status.LOADING -> {
-                        albumsFlow.emit(
-                            AlbumState(
+                        tracksFlow.emit(
+                            TrackState(
                                 currentStateEnum = DataStateEnum.LOADING,
                             )
                         )
@@ -72,45 +72,48 @@ class AlbumViewModel(private val albumRepo: AlbumRepository) : ViewModel() {
         }
     }
 
-    private fun observeAllAlbums() {
+    private fun observeAllTracks() {
         viewModelScope.launch {
-            albumsFlow.emit(
-                AlbumState(
+            tracksFlow.emit(
+                TrackState(
                     currentStateEnum = DataStateEnum.LOADING,
                 )
             )
 
-            albumRepo.observeFirstTenAlbums().collect { albums ->
+            trackRepo.observeFirstTenTracks().collect { tracks ->
                 try {
-                    if (albums.isNotEmpty()) {
-                        albumsFlow.emit(
-                            AlbumState(
+                    if (tracks.isNotEmpty()) {
+                        tracksFlow.emit(
+                            TrackState(
                                 currentStateEnum = DataStateEnum.SUCCESS,
-                                albums = albums
+                                tracks = tracks
                             )
                         )
                     } else {
-                        albumsFlow.emit(
-                            AlbumState(
+                        tracksFlow.emit(
+                            TrackState(
                                 currentStateEnum = DataStateEnum.LOADING
                             )
                         )
                     }
                 } catch (e: Exception) {
-                    albumsFlow.emit(
-                        AlbumState(
+                    tracksFlow.emit(
+                        TrackState(
                             currentStateEnum = DataStateEnum.ERROR,
+                            tracks = null,
                             errorMessage = e.message
                         )
                     )
                 }
             }
+
+
         }
     }
 }
 
-data class AlbumState(
+data class TrackState(
     val currentStateEnum: DataStateEnum,
-    val albums: List<AlbumModel>? = null,
+    val tracks: List<TrackModel>? = null,
     val errorMessage: String? = null,
 )

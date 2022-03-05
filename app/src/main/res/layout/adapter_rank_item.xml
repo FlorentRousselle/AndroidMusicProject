@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/adapterClassement_cl_root"
+        android:id="@+id/adapterRankItem_cl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/spacing_m"
@@ -13,7 +13,7 @@
         android:paddingBottom="@dimen/spacing_m">
 
         <TextView
-            android:id="@+id/adapterClassement_tv_number"
+            android:id="@+id/adapterRankItem_tv_number"
             style="@style/Title16PxBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,36 +25,36 @@
             tools:text="1" />
 
         <ImageView
-            android:id="@+id/adapterClassement_iv_displayImage"
+            android:id="@+id/adapterRankItem_iv_displayImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="@dimen/spacing_m"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/adapterClassement_tv_number"
+            app:layout_constraintStart_toEndOf="@+id/adapterRankItem_tv_number"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/adapterClassement_tv_firstText"
+            android:id="@+id/adapterRankItem_tv_firstText"
             style="@style/Title16PxBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_m"
             android:layout_marginEnd="@dimen/spacing_m"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/adapterClassement_iv_displayImage"
-            app:layout_constraintTop_toTopOf="@+id/adapterClassement_iv_displayImage"
+            app:layout_constraintStart_toEndOf="@+id/adapterRankItem_iv_displayImage"
+            app:layout_constraintTop_toTopOf="@+id/adapterRankItem_iv_displayImage"
             tools:text="A veeeeeeeeeeeeeeery looooong with first text " />
 
         <TextView
-            android:id="@+id/adapterClassement_tv_secondText"
+            android:id="@+id/adapterRankItem_tv_secondText"
             style="@style/CaptionDetail12pxRegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/adapterClassement_tv_firstText"
-            app:layout_constraintStart_toStartOf="@+id/adapterClassement_tv_firstText"
-            app:layout_constraintTop_toBottomOf="@+id/adapterClassement_tv_firstText"
+            app:layout_constraintEnd_toEndOf="@+id/adapterRankItem_tv_firstText"
+            app:layout_constraintStart_toStartOf="@+id/adapterRankItem_tv_firstText"
+            app:layout_constraintTop_toBottomOf="@+id/adapterRankItem_tv_firstText"
             tools:text="Second text" />
 
 

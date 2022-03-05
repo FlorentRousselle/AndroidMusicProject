@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentHome_cl_root"
+        android:id="@+id/fragmentRank_cl_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/fragmentHome_tb"
+            android:id="@+id/fragmentRank_tb"
             style="@style/Widget.MaterialComponents.Toolbar.Surface"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             app:title="Classement" />
 
         <TextView
-            android:id="@+id/fragmentHome_tv_error"
+            android:id="@+id/fragmentRank_tv_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -30,25 +30,25 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentHome_tb"
+            app:layout_constraintTop_toBottomOf="@id/fragmentRank_tb"
             tools:text="An error occurred" />
 
         <ProgressBar
-            android:id="@+id/fragmentHome_pb"
+            android:id="@+id/fragmentRank_pb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentHome_tb" />
+            app:layout_constraintTop_toBottomOf="@id/fragmentRank_tb" />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/fragmentHome_tl"
+            android:id="@+id/fragmentRank_tl"
             style="@style/MaterialTab.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fragmentHome_tb">
+            app:layout_constraintTop_toBottomOf="@id/fragmentRank_tb">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/fragmentHome_vp"
+            android:id="@+id/fragmentRank_vp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fragmentHome_tl" />
+            app:layout_constraintTop_toBottomOf="@id/fragmentRank_tl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

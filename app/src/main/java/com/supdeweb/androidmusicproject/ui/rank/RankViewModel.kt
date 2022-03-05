@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.ui.home
+package com.supdeweb.androidmusicproject.ui.rank
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class RankViewModel(
     private val albumRepo: AlbumRepository,
     private val trackRepo: TrackRepository,
 ) : ViewModel() {

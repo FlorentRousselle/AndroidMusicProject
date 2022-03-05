@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.ui.home.adapter.album
+package com.supdeweb.androidmusicproject.ui.rank.adapter.album
 
 import android.os.Bundle
 import android.view.LayoutInflater

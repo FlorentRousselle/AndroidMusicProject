@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.ui.home.adapter.track
+package com.supdeweb.androidmusicproject.ui.rank.adapter.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,15 +12,15 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.model.TrackModel
-import com.supdeweb.androidmusicproject.databinding.AdapterClassementBinding
+import com.supdeweb.androidmusicproject.databinding.AdapterRankItemBinding
 
 class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
 
-        val binding: AdapterClassementBinding = DataBindingUtil.inflate(
+        val binding: AdapterRankItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.adapter_classement, parent,
+            R.layout.adapter_rank_item, parent,
             false
         )
 
@@ -33,19 +33,19 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
                 holder.binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius)
             val requestOptions = RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
-            Glide.with(holder.binding.adapterClassementIvDisplayImage)
+            Glide.with(holder.binding.adapterRankItemIvDisplayImage)
                 .setDefaultRequestOptions(requestOptions)
                 .load(track.imageUrl)
                 .transform(CenterCrop(), RoundedCorners(radius))
-                .into(holder.binding.adapterClassementIvDisplayImage)
+                .into(holder.binding.adapterRankItemIvDisplayImage)
 
-            holder.binding.adapterClassementTvFirstText.text = track.trackName
-            holder.binding.adapterClassementTvSecondText.text = track.artistName
-            holder.binding.adapterClassementTvNumber.text = ((position.plus(1)).toString())
+            holder.binding.adapterRankItemTvFirstText.text = track.trackName
+            holder.binding.adapterRankItemTvSecondText.text = track.artistName
+            holder.binding.adapterRankItemTvNumber.text = ((position.plus(1)).toString())
         }
     }
 
-    class TrackViewHolder(var binding: AdapterClassementBinding) :
+    class TrackViewHolder(var binding: AdapterRankItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
 

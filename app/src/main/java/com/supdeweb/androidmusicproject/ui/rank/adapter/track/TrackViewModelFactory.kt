@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.ui.home.adapter.track
+package com.supdeweb.androidmusicproject.ui.rank.adapter.track
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
