@@ -33,6 +33,7 @@ class AlbumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        initRecyclerView()
         observeViewModel()
         initButton()
     }
@@ -57,13 +58,6 @@ class AlbumFragment : Fragment() {
      * init [AlbumViewModel] with its factories
      */
     private fun initViewModel() {
-        adapter = AlbumAdapter()
-        binding.fragmentAlbumRv.adapter = adapter
-        binding.fragmentAlbumRv.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
         context?.let {
             val vmFactory =
                 AlbumViewModelFactory(
@@ -116,5 +110,15 @@ class AlbumFragment : Fragment() {
         binding.fragmentAlbumBtError.setOnClickListener {
             viewModel.getTrendingAlbums()
         }
+    }
+
+    private fun initRecyclerView() {
+        adapter = AlbumAdapter()
+        binding.fragmentAlbumRv.adapter = adapter
+        binding.fragmentAlbumRv.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
     }
 }

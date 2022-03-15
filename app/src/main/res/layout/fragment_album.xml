@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="text"
-                android:text="Réessayer"
+                android:text="@string/button_label_error_retry"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

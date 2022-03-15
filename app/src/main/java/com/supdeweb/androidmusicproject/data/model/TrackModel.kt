@@ -11,5 +11,4 @@ class TrackModel(
     val description: String?,
     val imageUrl: String?,
     val chartPlace: Int?,
-    val isFavorite: Boolean,
 )

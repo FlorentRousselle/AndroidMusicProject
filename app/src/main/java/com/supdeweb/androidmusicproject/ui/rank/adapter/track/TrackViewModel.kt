@@ -9,7 +9,6 @@ import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class TrackViewModel(private val trackRepo: TrackRepository) : ViewModel() {
@@ -36,7 +35,7 @@ class TrackViewModel(private val trackRepo: TrackRepository) : ViewModel() {
     }
 
     fun getTrendingTracks() {
-        trackRepo.getTrendingTracks { res ->
+        trackRepo.fetchTrendingTracks { res ->
             viewModelScope.launch {
                 tracksFlow.emit(
                     TrackState(
@@ -69,45 +68,6 @@ class TrackViewModel(private val trackRepo: TrackRepository) : ViewModel() {
                     }
                 }
             }
-        }
-    }
-
-    private fun observeAllTracks() {
-        viewModelScope.launch {
-            tracksFlow.emit(
-                TrackState(
-                    currentStateEnum = DataStateEnum.LOADING,
-                )
-            )
-
-            trackRepo.observeFirstTenTracks().collect { tracks ->
-                try {
-                    if (tracks.isNotEmpty()) {
-                        tracksFlow.emit(
-                            TrackState(
-                                currentStateEnum = DataStateEnum.SUCCESS,
-                                tracks = tracks
-                            )
-                        )
-                    } else {
-                        tracksFlow.emit(
-                            TrackState(
-                                currentStateEnum = DataStateEnum.LOADING
-                            )
-                        )
-                    }
-                } catch (e: Exception) {
-                    tracksFlow.emit(
-                        TrackState(
-                            currentStateEnum = DataStateEnum.ERROR,
-                            tracks = null,
-                            errorMessage = e.message
-                        )
-                    )
-                }
-            }
-
-
         }
     }
 }

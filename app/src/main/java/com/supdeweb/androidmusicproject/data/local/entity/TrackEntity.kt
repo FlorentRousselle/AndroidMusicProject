@@ -33,7 +33,4 @@ class TrackEntity(
 
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
-
-    @ColumnInfo(name = "is_favorite_track")
-    val isFavorite: Boolean,
 )

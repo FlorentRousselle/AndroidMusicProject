@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.data.local.mapper.album
+package com.supdeweb.androidmusicproject.data.local.mapper
 
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
@@ -19,6 +19,8 @@ fun List<AlbumDto>.dtoAsEntity(): List<AlbumEntity> {
             description = it.strDescriptionFR,
             imageUrl = it.strAlbumThumb,
             isFavorite = false,
+            score = it.intScore?.toFloat(),
+            scoreVotes = it.intScoreVotes?.toInt(),
         )
     }
 }
@@ -36,6 +38,8 @@ fun List<AlbumDto>.dtoAsModel(): List<AlbumModel> {
             imageUrl = it.strAlbumThumb,
             isFavorite = false,
             chartPlace = null,
+            score = it.intScore?.toFloat(),
+            scoreVotes = it.intScoreVotes?.toInt(),
         )
     }
 }
@@ -52,6 +56,8 @@ fun List<AlbumModel>.modelAsEntity(): List<AlbumEntity> {
             description = it.description,
             imageUrl = it.imageUrl,
             isFavorite = false,
+            score = it.score,
+            scoreVotes = it.scoreVotes,
         )
     }
 }
@@ -69,6 +75,8 @@ fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
             imageUrl = it.imageUrl,
             isFavorite = it.isFavorite,
             chartPlace = null,
+            score = it.score,
+            scoreVotes = it.scoreVotes,
         )
     }
 }
@@ -85,5 +93,39 @@ fun AlbumEntity.asModel(): AlbumModel {
         imageUrl = this.imageUrl,
         isFavorite = this.isFavorite,
         chartPlace = null,
+        score = this.score,
+        scoreVotes = this.scoreVotes,
+    )
+}
+
+fun AlbumModel.asEntity(): AlbumEntity {
+    return AlbumEntity(
+        id = this.id,
+        title = this.albumName,
+        artistId = this.artistId,
+        artistName = this.artistName,
+        style = this.style,
+        sales = this.sales,
+        description = this.description,
+        imageUrl = this.imageUrl,
+        isFavorite = this.isFavorite,
+        score = this.score,
+        scoreVotes = this.scoreVotes,
+    )
+}
+
+fun AlbumDto.asEntity(): AlbumEntity {
+    return AlbumEntity(
+        id = this.idAlbum,
+        title = this.strAlbum,
+        artistId = this.idArtist,
+        artistName = this.strArtist,
+        style = this.strStyle,
+        sales = this.intSales?.toInt(),
+        description = this.strDescriptionFR,
+        imageUrl = this.strAlbumThumb,
+        isFavorite = false,
+        score = this.intScore?.toFloat(),
+        scoreVotes = this.intScoreVotes?.toInt(),
     )
 }

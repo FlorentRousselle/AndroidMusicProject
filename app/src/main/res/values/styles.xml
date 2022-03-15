@@ -11,10 +11,23 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="Title20PxBold">
+        <item name="android:textSize">@dimen/text_size_x_big</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
 
     <style name="Title16PxBold">
         <item name="android:textSize">@dimen/text_size_s_big</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="Title16PxRegular">
+        <item name="android:textSize">@dimen/text_size_s_big</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:lineSpacingExtra">2sp</item>
     </style>

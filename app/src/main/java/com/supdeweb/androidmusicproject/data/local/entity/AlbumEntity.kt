@@ -25,6 +25,12 @@ class AlbumEntity(
     @ColumnInfo(name = "sales")
     val sales: Int?,
 
+    @ColumnInfo(name = "score")
+    val score: Float?,
+
+    @ColumnInfo(name = "score_votes")
+    val scoreVotes: Int?,
+
     @ColumnInfo(name = "description")
     val description: String?,
 

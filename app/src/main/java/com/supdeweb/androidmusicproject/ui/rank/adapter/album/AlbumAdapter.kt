@@ -2,7 +2,9 @@ package com.supdeweb.androidmusicproject.ui.rank.adapter.album
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +44,12 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
             holder.binding.adapterRankItemTvFirstText.text = album.albumName
             holder.binding.adapterRankItemTvSecondText.text = album.artistName
             holder.binding.adapterRankItemTvNumber.text = ((position.plus(1)).toString())
+
+            // CLICK ACTION
+            holder.itemView.setOnClickListener {
+                val bundle = bundleOf(ARG_ALBUM_ID to album.id)
+                holder.itemView.findNavController().navigate(R.id.albumDetailFragment, bundle)
+            }
         }
     }
 
@@ -50,6 +58,7 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
 
 
     companion object {
+        const val ARG_ALBUM_ID = "ARG_ALBUM_ID"
         private val diffCallback = object :
             DiffUtil.ItemCallback<AlbumModel>() {
 

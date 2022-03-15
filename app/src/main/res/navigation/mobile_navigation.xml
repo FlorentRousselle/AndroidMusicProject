@@ -3,20 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/rankFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/rankFragment"
         android:name="com.supdeweb.androidmusicproject.ui.rank.RankFragment"
+        android:label="RankFragment"
         tools:layout="@layout/fragment_rank" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/searchFragment"
         android:name="com.supdeweb.androidmusicproject.ui.dashboard.DashboardFragment"
+        android:label="SearchFragment"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/favoriteFragment"
         android:name="com.supdeweb.androidmusicproject.ui.notifications.NotificationsFragment"
+        android:label="FavoriteFragment"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.details.album.AlbumDetailFragment"
+        android:label="AlbumDetailFragment"
+        tools:layout="@layout/fragment_album_detail">
+        <argument
+            android:name="albumId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.rank.adapter.album.AlbumFragment"
+        android:label="AlbumFragment"
+        tools:layout="@layout/fragment_album">
+        <action
+            android:id="@+id/action_albumFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
 </navigation>

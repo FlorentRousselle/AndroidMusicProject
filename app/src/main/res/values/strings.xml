@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="menuDetail_item_favorite">Favorite</string>
+    <string name="button_label_error_retry">Retry</string>
+    <string name="fragmentAlbumDetail_tv_label_tracks">Tracks</string>
+    <string name="fragmentAlbumDetail_tv_label_albumVotes">%1$d votes</string>
+    <string name="fragmentAlbumDetail_tv_label_tracksNumber">%1$d songs</string>
 </resources>

@@ -65,7 +65,6 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
                 newItem: TrackModel,
             ): Boolean {
                 return oldItem.trackName == newItem.trackName
-                        && oldItem.isFavorite == newItem.isFavorite
                         && oldItem.imageUrl == newItem.imageUrl
                         && oldItem.score == newItem.score
                         && oldItem.style == newItem.style

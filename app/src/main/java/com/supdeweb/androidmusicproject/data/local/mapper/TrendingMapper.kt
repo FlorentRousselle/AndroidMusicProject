@@ -1,4 +1,4 @@
-package com.supdeweb.androidmusicproject.data.local.mapper.album
+package com.supdeweb.androidmusicproject.data.local.mapper
 
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.model.TrackModel
@@ -20,6 +20,8 @@ fun List<TrendingDto>.albumDtoAsModel(): List<AlbumModel> {
             imageUrl = it.strAlbumThumb,
             isFavorite = false,
             chartPlace = it.intChartPlace?.toInt(),
+            score = null,
+            scoreVotes = null,
         )
     }
 }
@@ -34,7 +36,6 @@ fun List<TrendingDto>.trackDtoAsModel(): List<TrackModel> {
             style = null,
             description = null,
             imageUrl = it.strTrackThumb,
-            isFavorite = false,
             chartPlace = it.intChartPlace?.toInt(),
             albumId = it.idAlbum,
             score = null,

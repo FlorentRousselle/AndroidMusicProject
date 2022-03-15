@@ -19,7 +19,6 @@ fun List<TrackDto>.dtoAsEntity(): List<TrackEntity> {
             score = it.intScore,
             description = it.strDescriptionFR,
             imageUrl = it.strTrackThumb,
-            isFavorite = false
         )
     }
 }
@@ -28,14 +27,13 @@ fun List<TrackDto>.dtoAsModel(): List<TrackModel> {
     return map {
         TrackModel(
             id = it.idTrack,
-            trackName = it.strAlbum,
+            trackName = it.strTrack,
             artistId = it.idArtist,
             artistName = it.strArtist,
             style = it.strStyle,
             score = it.intScore,
             description = it.strDescriptionFR,
             imageUrl = it.strTrackThumb,
-            isFavorite = false,
             albumId = it.idAlbum,
             chartPlace = null,
         )
@@ -53,7 +51,6 @@ fun List<TrackModel>.modelAsEntity(): List<TrackEntity> {
             score = it.score,
             description = it.description,
             imageUrl = it.imageUrl,
-            isFavorite = false,
             albumId = it.albumId,
         )
     }
@@ -70,7 +67,6 @@ fun List<TrackEntity>.entitiesAsModel(): List<TrackModel> {
             score = it.score,
             description = it.description,
             imageUrl = it.imageUrl,
-            isFavorite = it.isFavorite,
             albumId = it.albumId,
             chartPlace = null,
         )
@@ -87,7 +83,6 @@ fun TrackEntity.asModel(): TrackModel {
         score = this.score,
         description = this.description,
         imageUrl = this.imageUrl,
-        isFavorite = this.isFavorite,
         albumId = this.albumId,
         chartPlace = null,
     )

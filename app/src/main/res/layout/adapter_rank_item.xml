@@ -57,6 +57,6 @@
             app:layout_constraintTop_toBottomOf="@+id/adapterRankItem_tv_firstText"
             tools:text="Second text" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
