@@ -67,22 +67,20 @@ class AlbumDetailViewModel(
     fun refreshData() {
         viewModelScope.launch {
             fetchAlbumDetailUseCase(albumId).collect {
-                if (it == null) {
-                    observeAlbumDetail()
-                } else {
+                if (it != null) {
                     errorMessage.emit(it)
                 }
             }
         }
         viewModelScope.launch {
             fetchTracksByAlbumUseCase(albumId).collect {
-                if (it == null) {
-                    observeTrackList()
-                } else {
+                if (it != null) {
                     errorMessage.emit(it)
                 }
             }
         }
+        observeAlbumDetail()
+        observeTrackList()
     }
 
     private fun observeAlbumDetail() {

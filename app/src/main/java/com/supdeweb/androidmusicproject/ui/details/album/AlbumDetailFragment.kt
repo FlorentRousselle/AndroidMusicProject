@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.supdeweb.androidmusicproject.R
-import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
 import com.supdeweb.androidmusicproject.data.repository.TrackRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentAlbumDetailBinding
@@ -68,20 +67,6 @@ class AlbumDetailFragment : Fragment() {
                 else -> false
             }
         }
-    }
-
-    private fun onUserClickOnFavorite() {
-        lifecycleScope.launch {
-            val isFav = viewModel.albumState().first().album?.isFavorite ?: false
-            viewModel.updateFavoriteAlbum(!isFav)
-            initFavoriteIcon(isFav)
-        }
-    }
-
-    private fun initFavoriteIcon(isFavorite: Boolean) {
-        if (isFavorite) {
-            setFavoriteIcon(R.drawable.ic_baseline_favorite_24)
-        } else setFavoriteIcon(R.drawable.ic_baseline_favorite_border_24)
     }
 
     /**
@@ -290,20 +275,17 @@ class AlbumDetailFragment : Fragment() {
             ContextCompat.getDrawable(requireContext(), id)
     }
 
-    /**
-     *
-     */
-    private fun withSafeAlbum(
-        doStuff: (album: AlbumModel?) -> Unit,
-    ) {
-        lifecycleScope.launch {
-            if (viewModel.albumState().first().currentStateEnum == DataStateEnum.SUCCESS) {
-                val album = viewModel.albumState().first().album
-                doStuff(album)
-            }
-        }
-
+    private fun initFavoriteIcon(isFavorite: Boolean) {
+        if (isFavorite) {
+            setFavoriteIcon(R.drawable.ic_baseline_favorite_24)
+        } else setFavoriteIcon(R.drawable.ic_baseline_favorite_border_24)
     }
 
-
+    private fun onUserClickOnFavorite() {
+        lifecycleScope.launch {
+            val isFav = viewModel.albumState().first().album?.isFavorite ?: false
+            viewModel.updateFavoriteAlbum(!isFav)
+            initFavoriteIcon(isFav)
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.supdeweb.androidmusicproject
 
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
@@ -20,9 +19,6 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
