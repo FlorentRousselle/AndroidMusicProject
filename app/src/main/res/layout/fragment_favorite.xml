@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.favorite.FavoriteFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/fragmentFavorite_tb"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Favorite"
+            app:subtitle="Mes artistes &amp; albums" />
+
+        <View
+            android:id="@+id/fragmentFavorite_v_headerDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentFavorite_tb"
+            android:text="@string/fragmentAlbumDetail_tv_label_tracks" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragmentFavorite_cl_root"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentFavorite_tb">
+
+            <LinearLayout
+                android:id="@+id/fragmentFavorite_ll_rootAlbums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_m"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/fragmentFavorite_tv_albums"
+                    style="@style/Title20PxBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:text="@string/fragmentArtistDetail_tv_label_albums"
+                    tools:text="Albums" />
+
+                <View
+                    android:id="@+id/fragmentFavorite_tv_albumsDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:background="@color/grey"
+                    android:text="@string/fragmentAlbumDetail_tv_label_tracks" />
+
+                <LinearLayout
+                    android:id="@+id/fragmentFavorite_ll_albums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
