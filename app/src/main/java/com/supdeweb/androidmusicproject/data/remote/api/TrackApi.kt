@@ -27,7 +27,15 @@ interface TrackApi {
     @GET(TRACKS_ALBUM)
     fun getTracksByAlbum(
         @Query("m") albumId: String,
-    ): Call<TrackByAlbumResponse>
+    ): Call<TrackListResponse>
+
+    /**
+     *
+     */
+    @GET(TOP_TRACKS_ARTIST)
+    fun getTopTracksByArtistName(
+        @Query("s") artistName: String,
+    ): Call<TrackListResponse>
 
 
     companion object {
@@ -35,6 +43,7 @@ interface TrackApi {
         private const val TRACKS = "mostloved.php?format=track"
         private const val TRACKS_ALBUM = "track.php"
         private const val TRENDING_TRACKS = "trending.php?country=us&type=itunes&format=singles"
+        private const val TOP_TRACKS_ARTIST = "track-top10.php"
     }
 }
 
@@ -45,7 +54,7 @@ data class TrackResponse(
 )
 
 
-data class TrackByAlbumResponse(
+data class TrackListResponse(
     @SerializedName("track")
     @Expose
     val tracks: List<TrackDto>? = null,

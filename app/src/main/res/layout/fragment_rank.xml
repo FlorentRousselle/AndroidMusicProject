@@ -14,12 +14,14 @@
             android:id="@+id/fragmentRank_tb"
             style="@style/Widget.MaterialComponents.Toolbar.Surface"
             android:layout_width="0dp"
-            android:fitsSystemWindows="true"
             android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:padding="@dimen/spacing_m"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="Rank" />
+            app:title="@string/title_rank"
+            app:titleTextAppearance="@style/Title32PxBold" />
 
         <TextView
             android:id="@+id/fragmentRank_tv_error"

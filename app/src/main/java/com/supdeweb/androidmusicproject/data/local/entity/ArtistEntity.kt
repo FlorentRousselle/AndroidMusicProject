@@ -25,6 +25,6 @@ class ArtistEntity(
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
 
-    @ColumnInfo(name = "is_favorite_album")
+    @ColumnInfo(name = "is_favorite_artist")
     val isFavorite: Boolean,
 )

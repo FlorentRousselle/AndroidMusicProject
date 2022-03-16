@@ -4,10 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.model.ArtistModel
+import com.supdeweb.androidmusicproject.data.model.TrackModel
 import com.supdeweb.androidmusicproject.data.tools.Status
 import com.supdeweb.androidmusicproject.domain.features.album.FetchAlbumsByArtistUseCase
 import com.supdeweb.androidmusicproject.domain.features.artist.FetchArtistDetailUseCase
 import com.supdeweb.androidmusicproject.domain.features.artist.UpdateFavoriteArtistUseCase
+import com.supdeweb.androidmusicproject.domain.features.track.FetchTopTracksByArtistUseCase
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,7 @@ class ArtistDetailViewModel(
     val artistId: String,
     private val fetchArtistDetailUseCase: FetchArtistDetailUseCase,
     private val fetchAlbumsByArtistUseCase: FetchAlbumsByArtistUseCase,
+    private val fetchTopTracksByArtistUseCase: FetchTopTracksByArtistUseCase,
     private val updateFavoriteArtistUseCase: UpdateFavoriteArtistUseCase,
 ) : ViewModel() {
 
@@ -56,6 +59,19 @@ class ArtistDetailViewModel(
         return albumsFlow.asStateFlow()
     }
 
+    /**
+     * albums
+     */
+    private val tracksFlow = MutableStateFlow(
+        TracksByArtistState(
+            currentStateEnum = DataStateEnum.IDLE,
+        )
+    )
+
+    fun tracksState(): Flow<TracksByArtistState> {
+        return tracksFlow.asStateFlow()
+    }
+
     init {
         refreshData()
     }
@@ -63,8 +79,12 @@ class ArtistDetailViewModel(
     fun refreshData() {
         observeArtistDetail()
         observeAlbumsByArtist()
+        observeTopTracks()
     }
 
+    /**
+     *
+     */
     private fun observeArtistDetail() {
         viewModelScope.launch {
             artistFlow.emit(
@@ -102,6 +122,9 @@ class ArtistDetailViewModel(
         }
     }
 
+    /**
+     *
+     */
     private fun observeAlbumsByArtist() {
         viewModelScope.launch {
             albumsFlow.emit(
@@ -139,6 +162,44 @@ class ArtistDetailViewModel(
         }
     }
 
+    private fun observeTopTracks() {
+        viewModelScope.launch {
+            tracksFlow.emit(
+                TracksByArtistState(
+                    currentStateEnum = DataStateEnum.LOADING,
+                )
+            )
+            fetchTopTracksByArtistUseCase(artistId).collect {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        tracksFlow.emit(
+                            TracksByArtistState(
+                                currentStateEnum = DataStateEnum.SUCCESS,
+                                tracks = it.data
+                            )
+                        )
+                    }
+                    Status.ERROR -> {
+                        tracksFlow.emit(
+                            TracksByArtistState(
+                                currentStateEnum = DataStateEnum.ERROR,
+                                errorMessage = it.message
+                            )
+                        )
+                    }
+                    Status.LOADING -> {
+                        tracksFlow.emit(
+                            TracksByArtistState(
+                                currentStateEnum = DataStateEnum.LOADING,
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+
     fun updateFavoriteArtist(isFavorite: Boolean) {
         viewModelScope.launch {
             updateFavoriteArtistUseCase(artistId, isFavorite)
@@ -157,5 +218,11 @@ data class ArtistDetailState(
 data class AlbumsByArtistState(
     val currentStateEnum: DataStateEnum,
     val albums: List<AlbumModel>? = null,
+    val errorMessage: String? = null,
+)
+
+data class TracksByArtistState(
+    val currentStateEnum: DataStateEnum,
+    val tracks: List<TrackModel>? = null,
     val errorMessage: String? = null,
 )

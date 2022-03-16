@@ -10,19 +10,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
 import com.supdeweb.androidmusicproject.data.repository.ArtistRepository
+import com.supdeweb.androidmusicproject.data.repository.TrackRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentArtistDetailBinding
 import com.supdeweb.androidmusicproject.design.RadiusButton
 import com.supdeweb.androidmusicproject.domain.features.album.FetchAlbumsByArtistUseCase
 import com.supdeweb.androidmusicproject.domain.features.artist.FetchArtistDetailUseCase
 import com.supdeweb.androidmusicproject.domain.features.artist.UpdateFavoriteArtistUseCase
+import com.supdeweb.androidmusicproject.domain.features.track.FetchTopTracksByArtistUseCase
 import com.supdeweb.androidmusicproject.extension.showSnackbar
 import com.supdeweb.androidmusicproject.ui.details.album.AlbumDetailFragment.Companion.ARG_ALBUM_DETAIL_ID
+import com.supdeweb.androidmusicproject.ui.details.album.TracksDetailAdapter
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import com.supdeweb.androidmusicproject.ui.utils.SnackBarStatusEnum
 import kotlinx.coroutines.flow.collect
@@ -78,16 +82,33 @@ class ArtistDetailFragment : Fragment() {
      */
     private lateinit var binding: FragmentArtistDetailBinding
 
+    /**
+     * the top tracks by artist adapter
+     */
+    private lateinit var adapter: TracksDetailAdapter
+
 
     /**
      * init [ArtistDetailViewModel] with its factories
      */
     private fun initViewModel(artistId: String) {
+        adapter = TracksDetailAdapter()
+        binding.fragmentArtistDetailRvTracks.adapter = adapter
+        binding.fragmentArtistDetailRvTracks.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
         // init use cases
         val fetchArtistDetailUseCase =
             FetchArtistDetailUseCase(ArtistRepository.getInstance(requireContext()))
         val fetchAlbumsByArtistUseCase =
             FetchAlbumsByArtistUseCase(AlbumRepository.getInstance(requireContext()))
+        val fetchTopTracksByArtistUseCase =
+            FetchTopTracksByArtistUseCase(
+                TrackRepository.getInstance(requireContext()),
+                ArtistRepository.getInstance(requireContext()),
+            )
         val updateFavoriteArtistUseCase =
             UpdateFavoriteArtistUseCase(ArtistRepository.getInstance(requireContext()))
         val vmFactory =
@@ -95,6 +116,7 @@ class ArtistDetailFragment : Fragment() {
                 artistId,
                 fetchArtistDetailUseCase,
                 fetchAlbumsByArtistUseCase,
+                fetchTopTracksByArtistUseCase,
                 updateFavoriteArtistUseCase
             )
         viewModel = ViewModelProvider(this, vmFactory)[ArtistDetailViewModel::class.java]
@@ -122,6 +144,9 @@ class ArtistDetailFragment : Fragment() {
             onAlbumStateChanged()
         }
         lifecycleScope.launch {
+            onTracksStateChanged()
+        }
+        lifecycleScope.launch {
             viewModel.errorMessageState().collect { errorMessage ->
                 errorMessage?.let {
                     showSnackbar(
@@ -133,6 +158,9 @@ class ArtistDetailFragment : Fragment() {
         }
     }
 
+    /**
+     *
+     */
     private suspend fun onArtistStateChanged() {
         viewModel.artistState().collect {
             when (it.currentStateEnum) {
@@ -177,6 +205,9 @@ class ArtistDetailFragment : Fragment() {
         }
     }
 
+    /**
+     *
+     */
     private suspend fun onAlbumStateChanged() {
         viewModel.albumsState().collect {
             when (it.currentStateEnum) {
@@ -201,7 +232,37 @@ class ArtistDetailFragment : Fragment() {
                     binding.fragmentArtistDetailLlError.visibility = View.GONE
                     binding.fragmentArtistDetailClContent.visibility = View.VISIBLE
 
+                    binding.fragmentArtistDetailTvAlbums.text =
+                        getString(R.string.fragmentArtistDetail_tv_label_albums, it.albums?.size)
+
                     it.albums?.let { albums -> initAlbumComponent(albums) }
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private suspend fun onTracksStateChanged() {
+        viewModel.tracksState().collect {
+            when (it.currentStateEnum) {
+                DataStateEnum.IDLE -> {
+                    binding.fragmentArtistDetailLlTracks.visibility = View.GONE
+                }
+                DataStateEnum.ERROR -> {
+                    binding.fragmentArtistDetailLlTracks.visibility = View.GONE
+                }
+                DataStateEnum.LOADING -> {
+                    binding.fragmentArtistDetailLlTracks.visibility = View.GONE
+                    binding.fragmentArtistDetailPb.visibility = View.VISIBLE
+                }
+                DataStateEnum.SUCCESS -> {
+                    binding.fragmentArtistDetailPb.visibility = View.GONE
+                    binding.fragmentArtistDetailLlTracks.visibility =
+                        if (it.tracks.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+                    adapter.submitList(it.tracks)
                 }
             }
         }

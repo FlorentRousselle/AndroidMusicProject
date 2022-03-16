@@ -6,8 +6,14 @@
     <string name="menuDetail_item_favorite">Favorite</string>
     <string name="button_label_error_retry">Retry</string>
     <string name="fragmentAlbumDetail_tv_label_tracks">Tracks</string>
-    <string name="fragmentArtistDetail_tv_label_albums">Albums</string>
+    <string name="fragmentArtistDetail_tv_label_albums">Albums (%1$d)</string>
+    <string name="fragmentFavorite_tv_label_artists">Artists</string>
+    <string name="fragmentFavorite_tv_label_emptyList">The list is empty, let\'s favor</string>
     <string name="fragmentAlbumDetail_tv_label_albumVotes">%1$d votes</string>
     <string name="fragmentAlbumDetail_tv_label_tracksNumber">%1$d songs</string>
     <string name="fragmentArtistDetail_tv_label_country">%1$s - %2$s</string>
+    <string name="fragmentArtistDetail_tv_label_topTracks">Most loved tracks</string>
+    <string name="fragmentFavorite_tb_title">My albums &amp; artists</string>
+    <string name="fragmentRank_tabLayout_title_tracks">Tracks</string>
+    <string name="fragmentRank_tabLayout_title_albums">Albums</string>
 </resources>

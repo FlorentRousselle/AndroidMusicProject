@@ -164,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_m"
-                        android:text="@string/fragmentAlbumDetail_tv_label_tracks"
+                        android:text="@string/fragmentArtistDetail_tv_label_topTracks"
                         tools:text="Titres" />
 
                     <View

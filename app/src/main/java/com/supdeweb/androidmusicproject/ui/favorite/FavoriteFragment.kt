@@ -12,11 +12,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
+import com.supdeweb.androidmusicproject.data.model.ArtistModel
 import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
+import com.supdeweb.androidmusicproject.data.repository.ArtistRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentFavoriteBinding
 import com.supdeweb.androidmusicproject.design.RadiusButton
 import com.supdeweb.androidmusicproject.domain.features.album.ObserveFavoriteAlbumsUseCase
+import com.supdeweb.androidmusicproject.domain.features.artist.ObserveFavoriteArtistsUseCase
 import com.supdeweb.androidmusicproject.ui.details.album.AlbumDetailFragment
+import com.supdeweb.androidmusicproject.ui.details.artist.ArtistDetailFragment.Companion.ARG_ARTIST_DETAIL_ID
 import com.supdeweb.androidmusicproject.ui.rank.RankViewModel
 import com.supdeweb.androidmusicproject.ui.rank.adapter.album.AlbumViewModel
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
@@ -60,9 +64,12 @@ class FavoriteFragment : Fragment() {
         // init use cases
         val observeFavoriteAlbumsUseCase =
             ObserveFavoriteAlbumsUseCase(AlbumRepository.getInstance(requireContext()))
+        val observeFavoriteArtistsUseCase =
+            ObserveFavoriteArtistsUseCase(ArtistRepository.getInstance(requireContext()))
         val vmFactory =
             FavoriteViewModelFactory(
-                observeFavoriteAlbumsUseCase
+                observeFavoriteAlbumsUseCase,
+                observeFavoriteArtistsUseCase
             )
         viewModel = ViewModelProvider(this, vmFactory)[FavoriteViewModel::class.java]
     }
@@ -83,23 +90,64 @@ class FavoriteFragment : Fragment() {
         lifecycleScope.launch {
             onAlbumStateChanged()
         }
+        lifecycleScope.launch {
+            onArtistStateChanged()
+        }
     }
 
     private suspend fun onAlbumStateChanged() {
         viewModel.albumState().collect {
             when (it.currentStateEnum) {
                 DataStateEnum.IDLE -> {
-                    binding.fragmentFavoriteClRoot.visibility = View.GONE
+                    binding.fragmentFavoritePbAlbums.visibility = View.GONE
+                    binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.GONE
                 }
                 DataStateEnum.ERROR -> {
-                    binding.fragmentFavoriteClRoot.visibility = View.GONE
+                    binding.fragmentFavoritePbAlbums.visibility = View.GONE
+                    binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.GONE
                 }
                 DataStateEnum.LOADING -> {
-                    binding.fragmentFavoriteClRoot.visibility = View.GONE
+                    binding.fragmentFavoritePbAlbums.visibility = View.VISIBLE
+                    binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.GONE
                 }
                 DataStateEnum.SUCCESS -> {
-                    binding.fragmentFavoriteClRoot.visibility = View.VISIBLE
-                    it.albums?.let { albums -> initAlbumComponent(albums) }
+                    binding.fragmentFavoritePbAlbums.visibility = View.GONE
+                    binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.GONE
+                    if (it.albums.isNullOrEmpty()) {
+                        binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.VISIBLE
+                    } else {
+                        binding.fragmentFavoriteTvAlbumEmptyList.visibility = View.GONE
+                        initAlbumComponent(it.albums)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun onArtistStateChanged() {
+        viewModel.artistState().collect {
+            when (it.currentStateEnum) {
+                DataStateEnum.IDLE -> {
+                    binding.fragmentFavoritePbArtists.visibility = View.GONE
+                    binding.fragmentFavoriteTvArtistEmptyList.visibility = View.GONE
+                }
+                DataStateEnum.ERROR -> {
+                    binding.fragmentFavoritePbArtists.visibility = View.GONE
+                    binding.fragmentFavoriteTvArtistEmptyList.visibility = View.GONE
+                }
+                DataStateEnum.LOADING -> {
+                    binding.fragmentFavoritePbArtists.visibility = View.VISIBLE
+                    binding.fragmentFavoriteTvArtistEmptyList.visibility = View.GONE
+                }
+                DataStateEnum.SUCCESS -> {
+                    binding.fragmentFavoritePbArtists.visibility = View.GONE
+                    binding.fragmentFavoriteTvArtistEmptyList.visibility = View.GONE
+                    if (it.artists.isNullOrEmpty()) {
+                        binding.fragmentFavoriteTvArtistEmptyList.visibility = View.VISIBLE
+                    } else {
+                        binding.fragmentFavoriteTvArtistEmptyList.visibility = View.GONE
+                        initArtistComponent(it.artists)
+                    }
                 }
             }
         }
@@ -122,6 +170,28 @@ class FavoriteFragment : Fragment() {
 
             })
             binding.fragmentFavoriteLlAlbums.addView(
+                radiusButton
+            )
+        }
+    }
+
+    private fun initArtistComponent(artists: List<ArtistModel>) {
+        artists.forEach { artist ->
+            val radiusButton = RadiusButton(requireContext())
+            radiusButton.customizeButton(
+                textLabel = artist.name,
+                imageUrl = artist.imageUrl,
+                isArtist = true
+            )
+            radiusButton.setListener(object : RadiusButton.RadiusButtonListener {
+                override fun onUserClickOnItem() {
+                    val bundle = bundleOf(ARG_ARTIST_DETAIL_ID to artist.id)
+                    findNavController()
+                        .navigate(R.id.artistDetailFragment, bundle)
+                }
+
+            })
+            binding.fragmentFavoriteLlArtists.addView(
                 radiusButton
             )
         }

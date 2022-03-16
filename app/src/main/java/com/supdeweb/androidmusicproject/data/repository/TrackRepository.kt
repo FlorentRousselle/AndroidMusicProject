@@ -14,7 +14,7 @@ import com.supdeweb.androidmusicproject.data.local.mapper.trackDtoAsModel
 import com.supdeweb.androidmusicproject.data.model.TrackModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
 import com.supdeweb.androidmusicproject.data.remote.api.TrackApi
-import com.supdeweb.androidmusicproject.data.remote.api.TrackByAlbumResponse
+import com.supdeweb.androidmusicproject.data.remote.api.TrackListResponse
 import com.supdeweb.androidmusicproject.data.remote.api.TrendingResponse
 import com.supdeweb.androidmusicproject.data.tools.Resource
 import kotlinx.coroutines.cancel
@@ -121,18 +121,38 @@ class TrackRepository(
 
     fun fetchTracksBy(albumId: String): Flow<Resource<List<TrackModel>?>> {
         return callbackFlow {
-            trackApi.getTracksByAlbum(albumId).enqueue(object : Callback<TrackByAlbumResponse> {
+            trackApi.getTracksByAlbum(albumId).enqueue(object : Callback<TrackListResponse> {
                 override fun onResponse(
-                    call: Call<TrackByAlbumResponse>,
-                    response: Response<TrackByAlbumResponse>,
+                    call: Call<TrackListResponse>,
+                    response: Response<TrackListResponse>,
                 ) {
                     trySend(Resource.success(response.body()?.tracks?.dtoAsModel()))
                 }
 
-                override fun onFailure(call: Call<TrackByAlbumResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TrackListResponse>, t: Throwable) {
                     trySend(Resource.error(t.message ?: "Cannot fetch tracks by album", null))
                 }
             })
+            awaitClose { this.cancel() }
+        }
+    }
+
+    fun fetchTracksByArtistName(artistName: String): Flow<Resource<List<TrackModel>?>> {
+        return callbackFlow {
+            trackApi.getTopTracksByArtistName(artistName)
+                .enqueue(object : Callback<TrackListResponse> {
+                    override fun onResponse(
+                        call: Call<TrackListResponse>,
+                        response: Response<TrackListResponse>,
+                    ) {
+                        trySend(Resource.success(response.body()?.tracks?.dtoAsModel()))
+                    }
+
+                    override fun onFailure(call: Call<TrackListResponse>, t: Throwable) {
+                        trySend(Resource.error(t.message ?: "Cannot fetch tracks by artist name",
+                            null))
+                    }
+                })
             awaitClose { this.cancel() }
         }
     }

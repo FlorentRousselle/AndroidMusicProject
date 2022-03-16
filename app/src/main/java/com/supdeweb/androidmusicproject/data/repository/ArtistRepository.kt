@@ -42,6 +42,12 @@ class ArtistRepository(
             .map { Resource.success(it.asModel()) }
     }
 
+    fun observeFavoriteArtists(): Flow<Resource<List<ArtistModel>>> {
+        return artistDao.observeFavoriteArtists()
+            .onStart { Resource.loading(null) }
+            .map { Resource.success(it.entitiesAsModel()) }
+    }
+
     //GET
     suspend fun getArtistById(artistId: String): ArtistModel {
         return artistDao.getArtistById(artistId).asModel()

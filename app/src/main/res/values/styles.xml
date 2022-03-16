@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--- TabLayout -->
     <style name="MaterialTab.Primary" parent="Widget.MaterialComponents.TabLayout">
         <item name="color">?attr/colorPrimary</item>
         <item name="tabIconTint">?attr/colorPrimary</item>
@@ -10,6 +11,22 @@
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <!--- Toolbar -->
+    <style name="Toolbar.Custom" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:textSize">@dimen/text_size_xxx_big</item>
+    </style>
+
+
+    <!--- TextView -->
+
+    <style name="Title32PxBold">
+        <item name="android:textSize">@dimen/text_size_xxx_big</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
 
     <style name="Title24PxBold">
         <item name="android:textSize">@dimen/text_size_xx_big</item>
