@@ -29,6 +29,14 @@ interface AlbumApi {
         @Query("m") albumId: String,
     ): Call<GetAlbumDetailResponse>
 
+    /**
+     *
+     */
+    @GET(ALBUM_DETAIL)
+    fun getAlbumsByArtist(
+        @Query("i") artistId: String,
+    ): Call<GetAlbumDetailResponse>
+
 
     companion object {
         //ALBUM

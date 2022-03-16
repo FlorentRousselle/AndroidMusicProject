@@ -7,6 +7,7 @@ data class AlbumModel(
     val artistName: String?,
     val style: String?,
     val sales: Int?,
+    val year: String?,
     val score: Float?,
     val scoreVotes: Int?,
     val chartPlace: Int?,

@@ -17,12 +17,9 @@ import com.supdeweb.androidmusicproject.data.repository.AlbumRepository
 import com.supdeweb.androidmusicproject.data.repository.TrackRepository
 import com.supdeweb.androidmusicproject.databinding.FragmentAlbumDetailBinding
 import com.supdeweb.androidmusicproject.domain.features.album.FetchAlbumDetailUseCase
-import com.supdeweb.androidmusicproject.domain.features.album.ObserveAlbumDetailUseCase
 import com.supdeweb.androidmusicproject.domain.features.album.UpdateFavoriteAlbumUseCase
 import com.supdeweb.androidmusicproject.domain.features.track.FetchTracksByAlbumUseCase
-import com.supdeweb.androidmusicproject.domain.features.track.ObserveTracksByAlbumUseCase
 import com.supdeweb.androidmusicproject.extension.showSnackbar
-import com.supdeweb.androidmusicproject.ui.rank.adapter.album.AlbumAdapter.Companion.ARG_ALBUM_ID
 import com.supdeweb.androidmusicproject.ui.rank.adapter.album.AlbumViewModel
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import com.supdeweb.androidmusicproject.ui.utils.SnackBarStatusEnum
@@ -46,7 +43,7 @@ class AlbumDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val albumId = arguments?.getString(ARG_ALBUM_ID)
+        val albumId = arguments?.getString(ARG_ALBUM_DETAIL_ID)
             ?: throw IllegalAccessException("No albumId value pass")
 
         initViewModel(albumId)
@@ -96,10 +93,6 @@ class AlbumDetailFragment : Fragment() {
             false
         )
         //init use case
-        val getAlbumDetailUseCase =
-            ObserveAlbumDetailUseCase(AlbumRepository.getInstance(requireContext()))
-        val getTracksByAlbumUseCase =
-            ObserveTracksByAlbumUseCase(TrackRepository.getInstance(requireContext()))
         val fetchTracksByAlbumUseCase =
             FetchTracksByAlbumUseCase(TrackRepository.getInstance(requireContext()))
         val fetchAlbumDetailUseCase =
@@ -110,8 +103,6 @@ class AlbumDetailFragment : Fragment() {
         val vmFactory =
             AlbumDetailViewModelFactory(
                 albumId,
-                getAlbumDetailUseCase,
-                getTracksByAlbumUseCase,
                 fetchTracksByAlbumUseCase,
                 fetchAlbumDetailUseCase,
                 updateFavoriteAlbumUseCase,
@@ -260,7 +251,7 @@ class AlbumDetailFragment : Fragment() {
     }
 
     private fun initHeaderImage(imageUrl: String) {
-        val radius = binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius)
+        val radius = binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius_m)
         val requestOptions = RequestOptions()
             .error(R.drawable.ic_launcher_foreground)
         Glide.with(binding.fragmentAlbumDetailIvThumb)
@@ -287,5 +278,9 @@ class AlbumDetailFragment : Fragment() {
             viewModel.updateFavoriteAlbum(!isFav)
             initFavoriteIcon(isFav)
         }
+    }
+
+    companion object {
+        const val ARG_ALBUM_DETAIL_ID = "ARG_ALBUM_DETAIL_ID"
     }
 }

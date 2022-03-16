@@ -6,24 +6,19 @@ import com.supdeweb.androidmusicproject.data.local.dao.AlbumDao
 import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectDatabase
 import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.albumDtoAsModel
-import com.supdeweb.androidmusicproject.data.local.mapper.asEntity
-import com.supdeweb.androidmusicproject.data.local.mapper.asModel
-import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
+import com.supdeweb.androidmusicproject.data.local.mapper.*
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
 import com.supdeweb.androidmusicproject.data.remote.api.AlbumApi
 import com.supdeweb.androidmusicproject.data.remote.api.GetAlbumDetailResponse
 import com.supdeweb.androidmusicproject.data.remote.api.TrendingResponse
 import com.supdeweb.androidmusicproject.data.tools.Resource
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,6 +41,18 @@ class AlbumRepository(
         return albumDao.observeAlbumById(albumId)
             .onStart { Resource.loading(null) }
             .map { Resource.success(it.asModel()) }
+    }
+
+    fun observeAllAlbumsByArtist(artistId: String): Flow<Resource<List<AlbumModel>>> {
+        return albumDao.observeAllAlbumsByArtist(artistId)
+            .onStart { Resource.loading(null) }
+            .map { Resource.success(it.entitiesAsModel()) }
+    }
+
+    fun observeFavoriteAlbums(): Flow<Resource<List<AlbumModel>>> {
+        return albumDao.observeFavoriteAlbums()
+            .onStart { Resource.loading(null) }
+            .map { Resource.success(it.entitiesAsModel()) }
     }
 
     //GET
@@ -96,21 +103,36 @@ class AlbumRepository(
         }
     }
 
-    fun fetchAlbumDetailBy(albumId: String): Flow<String?> {
+    fun fetchAlbumDetailBy(albumId: String): Flow<Resource<AlbumModel?>> {
         return callbackFlow {
             albumApi.getAlbumDetail(albumId).enqueue(object : Callback<GetAlbumDetailResponse> {
                 override fun onResponse(
                     call: Call<GetAlbumDetailResponse>,
                     response: Response<GetAlbumDetailResponse>,
                 ) {
-                    GlobalScope.launch {
-                        response.body()?.album?.first()?.asEntity()?.let { insertAlbum(it) }
-                    }
-                    trySend(null)
+                    trySend(Resource.success(response.body()?.album?.first()?.asModel()))
                 }
 
                 override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
-                    trySend(t.message)
+                    trySend(Resource.error(t.message ?: "Cannot fetch album detail", null))
+                }
+            })
+            awaitClose { this.cancel() }
+        }
+    }
+
+    fun fetchAlbumsByArtist(artistId: String): Flow<Resource<List<AlbumModel>?>> {
+        return callbackFlow {
+            albumApi.getAlbumsByArtist(artistId).enqueue(object : Callback<GetAlbumDetailResponse> {
+                override fun onResponse(
+                    call: Call<GetAlbumDetailResponse>,
+                    response: Response<GetAlbumDetailResponse>,
+                ) {
+                    trySend(Resource.success(response.body()?.album?.dtoAsModel()))
+                }
+
+                override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
+                    trySend(Resource.error(t.message ?: "Cannot fetch albums by artist", null))
                 }
             })
             awaitClose { this.cancel() }

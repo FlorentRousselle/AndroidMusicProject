@@ -2,7 +2,9 @@ package com.supdeweb.androidmusicproject.ui.rank.adapter.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.model.TrackModel
 import com.supdeweb.androidmusicproject.databinding.AdapterRankItemBinding
+import com.supdeweb.androidmusicproject.ui.details.artist.ArtistDetailFragment.Companion.ARG_ARTIST_DETAIL_ID
 
 class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffCallback) {
 
@@ -30,7 +33,7 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         getItem(position)?.let { track ->
             val radius =
-                holder.binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius)
+                holder.binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius_m)
             val requestOptions = RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
             Glide.with(holder.binding.adapterRankItemIvDisplayImage)
@@ -42,6 +45,12 @@ class TrackAdapter : ListAdapter<TrackModel, TrackAdapter.TrackViewHolder>(diffC
             holder.binding.adapterRankItemTvFirstText.text = track.trackName
             holder.binding.adapterRankItemTvSecondText.text = track.artistName
             holder.binding.adapterRankItemTvNumber.text = ((position.plus(1)).toString())
+
+            // CLICK ACTION
+            holder.itemView.setOnClickListener {
+                val bundle = bundleOf(ARG_ARTIST_DETAIL_ID to track.artistId)
+                holder.itemView.findNavController().navigate(R.id.artistDetailFragment, bundle)
+            }
         }
     }
 

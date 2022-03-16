@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_m">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/componentRadiusButton_cl_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_background_grey"
+            android:padding="@dimen/spacing_s"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/componentRadiusButton_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginEnd="@dimen/spacing_m"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/componentRadiusButton_iv"
+                app:layout_constraintEnd_toStartOf="@+id/componentRadiusButton_iv_drawable"
+                app:layout_constraintStart_toEndOf="@+id/componentRadiusButton_iv"
+                app:layout_constraintTop_toTopOf="@+id/componentRadiusButton_iv">
+
+                <TextView
+                    android:id="@+id/componentRadiusButton_tv_label"
+                    style="@style/Title16PxBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_xxl"
+                    android:paddingBottom="@dimen/spacing_xxs"
+                    tools:text="Button labeeeee" />
+
+                <TextView
+                    android:id="@+id/componentRadiusButton_tv_firstSubtitle"
+                    style="@style/CaptionDetail12pxRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/spacing_xxs"
+                    android:visibility="gone"
+                    tools:text="Completed" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/componentRadiusButton_iv_drawable"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

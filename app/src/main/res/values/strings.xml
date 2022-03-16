@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">AndroidMusicProject</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_rank">Rank</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorite">Favorite</string>
     <string name="menuDetail_item_favorite">Favorite</string>
     <string name="button_label_error_retry">Retry</string>
     <string name="fragmentAlbumDetail_tv_label_tracks">Tracks</string>
+    <string name="fragmentArtistDetail_tv_label_albums">Albums</string>
     <string name="fragmentAlbumDetail_tv_label_albumVotes">%1$d votes</string>
     <string name="fragmentAlbumDetail_tv_label_tracksNumber">%1$d songs</string>
+    <string name="fragmentArtistDetail_tv_label_country">%1$s - %2$s</string>
 </resources>

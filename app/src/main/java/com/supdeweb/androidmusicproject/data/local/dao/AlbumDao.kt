@@ -22,8 +22,14 @@ interface AlbumDao {
     @Query("SELECT * FROM album")
     fun observeAlbums(): Flow<List<AlbumEntity>>
 
+    @Query("SELECT * FROM album WHERE album_artist_id = :artistId ORDER BY year")
+    fun observeAllAlbumsByArtist(artistId: String): Flow<List<AlbumEntity>>
+
     @Query("SELECT * FROM album WHERE id = :albumId")
     fun observeAlbumById(albumId: String): Flow<AlbumEntity>
+
+    @Query("SELECT * FROM album WHERE is_favorite_album = 1")
+    fun observeFavoriteAlbums(): Flow<List<AlbumEntity>>
 
     @Update
     suspend fun update(album: AlbumEntity): Int

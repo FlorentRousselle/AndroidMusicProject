@@ -1,13 +1,13 @@
-package com.supdeweb.androidmusicproject.ui.details.album
+package com.supdeweb.androidmusicproject.ui.details.artist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
-import com.supdeweb.androidmusicproject.data.model.TrackModel
+import com.supdeweb.androidmusicproject.data.model.ArtistModel
 import com.supdeweb.androidmusicproject.data.tools.Status
-import com.supdeweb.androidmusicproject.domain.features.album.FetchAlbumDetailUseCase
-import com.supdeweb.androidmusicproject.domain.features.album.UpdateFavoriteAlbumUseCase
-import com.supdeweb.androidmusicproject.domain.features.track.FetchTracksByAlbumUseCase
+import com.supdeweb.androidmusicproject.domain.features.album.FetchAlbumsByArtistUseCase
+import com.supdeweb.androidmusicproject.domain.features.artist.FetchArtistDetailUseCase
+import com.supdeweb.androidmusicproject.domain.features.artist.UpdateFavoriteArtistUseCase
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class AlbumDetailViewModel(
-    val albumId: String,
-    private val fetchTracksByAlbumUseCase: FetchTracksByAlbumUseCase,
-    private val fetchAlbumDetailUseCase: FetchAlbumDetailUseCase,
-    private val updateFavoriteAlbumUseCase: UpdateFavoriteAlbumUseCase,
+class ArtistDetailViewModel(
+    val artistId: String,
+    private val fetchArtistDetailUseCase: FetchArtistDetailUseCase,
+    private val fetchAlbumsByArtistUseCase: FetchAlbumsByArtistUseCase,
+    private val updateFavoriteArtistUseCase: UpdateFavoriteArtistUseCase,
 ) : ViewModel() {
 
     /**
@@ -31,29 +31,29 @@ class AlbumDetailViewModel(
     }
 
     /**
-     * album
+     * artist
      */
-    private val albumFlow = MutableStateFlow(
-        AlbumDetailState(
+    private val artistFlow = MutableStateFlow(
+        ArtistDetailState(
             currentStateEnum = DataStateEnum.IDLE,
         )
     )
 
-    fun albumState(): Flow<AlbumDetailState> {
-        return albumFlow.asStateFlow()
+    fun artistState(): Flow<ArtistDetailState> {
+        return artistFlow.asStateFlow()
     }
 
     /**
-     * album
+     * albums
      */
-    private val trackListFlow = MutableStateFlow(
-        TrackListState(
+    private val albumsFlow = MutableStateFlow(
+        AlbumsByArtistState(
             currentStateEnum = DataStateEnum.IDLE,
         )
     )
 
-    fun trackListState(): Flow<TrackListState> {
-        return trackListFlow.asStateFlow()
+    fun albumsState(): Flow<AlbumsByArtistState> {
+        return albumsFlow.asStateFlow()
     }
 
     init {
@@ -61,76 +61,38 @@ class AlbumDetailViewModel(
     }
 
     fun refreshData() {
-        observeAlbumDetail()
-        observeTrackList()
+        observeArtistDetail()
+        observeAlbumsByArtist()
     }
 
-    private fun observeTrackList() {
+    private fun observeArtistDetail() {
         viewModelScope.launch {
-            trackListFlow.emit(
-                TrackListState(
+            artistFlow.emit(
+                ArtistDetailState(
                     currentStateEnum = DataStateEnum.LOADING,
                 )
             )
-            fetchTracksByAlbumUseCase(albumId).collect {
+            fetchArtistDetailUseCase(artistId).collect {
                 when (it.status) {
                     Status.SUCCESS -> {
-                        trackListFlow.emit(
-                            TrackListState(
+                        artistFlow.emit(
+                            ArtistDetailState(
                                 currentStateEnum = DataStateEnum.SUCCESS,
-                                tracks = it.data
+                                artist = it.data
                             )
                         )
                     }
                     Status.ERROR -> {
-                        trackListFlow.emit(
-                            TrackListState(
+                        artistFlow.emit(
+                            ArtistDetailState(
                                 currentStateEnum = DataStateEnum.ERROR,
                                 errorMessage = it.message
                             )
                         )
                     }
                     Status.LOADING -> {
-                        trackListFlow.emit(
-                            TrackListState(
-                                currentStateEnum = DataStateEnum.LOADING,
-                            )
-                        )
-                    }
-                }
-            }
-
-        }
-    }
-
-    private fun observeAlbumDetail() {
-        viewModelScope.launch {
-            albumFlow.emit(
-                AlbumDetailState(
-                    currentStateEnum = DataStateEnum.LOADING,
-                )
-            )
-            fetchAlbumDetailUseCase(albumId).collect {
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        albumFlow.emit(
-                            AlbumDetailState(
-                                currentStateEnum = DataStateEnum.SUCCESS,
-                                album = it.data
-                            )
-                        )
-                    }
-                    Status.ERROR -> {
-                        albumFlow.emit(
-                            AlbumDetailState(
-                                currentStateEnum = DataStateEnum.ERROR,
-                                errorMessage = it.message
-                            )
-                        )
-                    }
-                    Status.LOADING -> {
-                        albumFlow.emit(
-                            AlbumDetailState(
+                        artistFlow.emit(
+                            ArtistDetailState(
                                 currentStateEnum = DataStateEnum.LOADING,
                             )
                         )
@@ -140,22 +102,60 @@ class AlbumDetailViewModel(
         }
     }
 
-
-    fun updateFavoriteAlbum(isFavorite: Boolean) {
+    private fun observeAlbumsByArtist() {
         viewModelScope.launch {
-            updateFavoriteAlbumUseCase(albumId, isFavorite)
+            albumsFlow.emit(
+                AlbumsByArtistState(
+                    currentStateEnum = DataStateEnum.LOADING,
+                )
+            )
+            fetchAlbumsByArtistUseCase(artistId).collect {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        albumsFlow.emit(
+                            AlbumsByArtistState(
+                                currentStateEnum = DataStateEnum.SUCCESS,
+                                albums = it.data
+                            )
+                        )
+                    }
+                    Status.ERROR -> {
+                        albumsFlow.emit(
+                            AlbumsByArtistState(
+                                currentStateEnum = DataStateEnum.ERROR,
+                                errorMessage = it.message
+                            )
+                        )
+                    }
+                    Status.LOADING -> {
+                        albumsFlow.emit(
+                            AlbumsByArtistState(
+                                currentStateEnum = DataStateEnum.LOADING,
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
+
+    fun updateFavoriteArtist(isFavorite: Boolean) {
+        viewModelScope.launch {
+            updateFavoriteArtistUseCase(artistId, isFavorite)
+        }
+    }
+
+
 }
 
-data class AlbumDetailState(
+data class ArtistDetailState(
     val currentStateEnum: DataStateEnum,
-    val album: AlbumModel? = null,
+    val artist: ArtistModel? = null,
     val errorMessage: String? = null,
 )
 
-data class TrackListState(
+data class AlbumsByArtistState(
     val currentStateEnum: DataStateEnum,
-    val tracks: List<TrackModel>? = null,
+    val albums: List<AlbumModel>? = null,
     val errorMessage: String? = null,
 )

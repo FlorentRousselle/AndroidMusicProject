@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.supdeweb.androidmusicproject.R
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
 import com.supdeweb.androidmusicproject.databinding.AdapterRankItemBinding
+import com.supdeweb.androidmusicproject.ui.details.album.AlbumDetailFragment.Companion.ARG_ALBUM_DETAIL_ID
 
 class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffCallback) {
 
@@ -32,7 +33,7 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         getItem(position)?.let { album ->
             val radius =
-                holder.binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius)
+                holder.binding.root.context.resources.getDimensionPixelSize(R.dimen.corner_radius_m)
             val requestOptions = RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
             Glide.with(holder.binding.adapterRankItemIvDisplayImage)
@@ -47,7 +48,7 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
 
             // CLICK ACTION
             holder.itemView.setOnClickListener {
-                val bundle = bundleOf(ARG_ALBUM_ID to album.id)
+                val bundle = bundleOf(ARG_ALBUM_DETAIL_ID to album.id)
                 holder.itemView.findNavController().navigate(R.id.albumDetailFragment, bundle)
             }
         }
@@ -58,7 +59,6 @@ class AlbumAdapter : ListAdapter<AlbumModel, AlbumAdapter.AlbumViewHolder>(diffC
 
 
     companion object {
-        const val ARG_ALBUM_ID = "ARG_ALBUM_ID"
         private val diffCallback = object :
             DiffUtil.ItemCallback<AlbumModel>() {
 

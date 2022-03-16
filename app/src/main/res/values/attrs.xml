@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RadiusButton">
+        <attr name="textLabel" format="string" />
+        <attr name="first_subtitle" format="string" />
+        <attr name="start_icon" format="string" />
+    </declare-styleable>
+</resources>

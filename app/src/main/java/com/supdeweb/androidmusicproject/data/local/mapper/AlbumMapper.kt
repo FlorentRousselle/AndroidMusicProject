@@ -21,6 +21,7 @@ fun List<AlbumDto>.dtoAsEntity(): List<AlbumEntity> {
             isFavorite = false,
             score = it.intScore?.toFloat(),
             scoreVotes = it.intScoreVotes?.toInt(),
+            year = it.intYearReleased,
         )
     }
 }
@@ -40,6 +41,7 @@ fun List<AlbumDto>.dtoAsModel(): List<AlbumModel> {
             chartPlace = null,
             score = it.intScore?.toFloat(),
             scoreVotes = it.intScoreVotes?.toInt(),
+            year = it.intYearReleased,
         )
     }
 }
@@ -58,6 +60,7 @@ fun List<AlbumModel>.modelAsEntity(): List<AlbumEntity> {
             isFavorite = false,
             score = it.score,
             scoreVotes = it.scoreVotes,
+            year = it.year,
         )
     }
 }
@@ -77,6 +80,7 @@ fun List<AlbumEntity>.entitiesAsModel(): List<AlbumModel> {
             chartPlace = null,
             score = it.score,
             scoreVotes = it.scoreVotes,
+            year = it.year,
         )
     }
 }
@@ -95,6 +99,7 @@ fun AlbumEntity.asModel(): AlbumModel {
         chartPlace = null,
         score = this.score,
         scoreVotes = this.scoreVotes,
+        year = this.year,
     )
 }
 
@@ -111,6 +116,7 @@ fun AlbumModel.asEntity(): AlbumEntity {
         isFavorite = this.isFavorite,
         score = this.score,
         scoreVotes = this.scoreVotes,
+        year = this.year,
     )
 }
 
@@ -127,5 +133,24 @@ fun AlbumDto.asEntity(): AlbumEntity {
         isFavorite = false,
         score = this.intScore?.toFloat(),
         scoreVotes = this.intScoreVotes?.toInt(),
+        year = this.intYearReleased,
+    )
+}
+
+fun AlbumDto.asModel(): AlbumModel {
+    return AlbumModel(
+        id = this.idAlbum,
+        albumName = this.strAlbum,
+        artistId = this.idArtist,
+        artistName = this.strArtist,
+        style = this.strStyle,
+        sales = this.intSales?.toInt(),
+        description = this.strDescriptionFR,
+        imageUrl = this.strAlbumThumb,
+        isFavorite = false,
+        score = this.intScore?.toFloat(),
+        scoreVotes = this.intScoreVotes?.toInt(),
+        chartPlace = null,
+        year = this.intYearReleased,
     )
 }

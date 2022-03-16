@@ -8,6 +8,7 @@ import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataSto
 import com.supdeweb.androidmusicproject.data.local.datastore.PreferenceKeys
 import com.supdeweb.androidmusicproject.data.local.entity.TrackEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.track.dtoAsEntity
+import com.supdeweb.androidmusicproject.data.local.mapper.track.dtoAsModel
 import com.supdeweb.androidmusicproject.data.local.mapper.track.entitiesAsModel
 import com.supdeweb.androidmusicproject.data.local.mapper.trackDtoAsModel
 import com.supdeweb.androidmusicproject.data.model.TrackModel
@@ -16,14 +17,12 @@ import com.supdeweb.androidmusicproject.data.remote.api.TrackApi
 import com.supdeweb.androidmusicproject.data.remote.api.TrackByAlbumResponse
 import com.supdeweb.androidmusicproject.data.remote.api.TrendingResponse
 import com.supdeweb.androidmusicproject.data.tools.Resource
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -120,21 +119,18 @@ class TrackRepository(
         })
     }
 
-    fun fetchTracksBy(albumId: String): Flow<String?> {
+    fun fetchTracksBy(albumId: String): Flow<Resource<List<TrackModel>?>> {
         return callbackFlow {
             trackApi.getTracksByAlbum(albumId).enqueue(object : Callback<TrackByAlbumResponse> {
                 override fun onResponse(
                     call: Call<TrackByAlbumResponse>,
                     response: Response<TrackByAlbumResponse>,
                 ) {
-                    GlobalScope.launch {
-                        response.body()?.tracks?.dtoAsEntity()?.let { insertAllTracks(it) }
-                    }
-                    trySend(null)
+                    trySend(Resource.success(response.body()?.tracks?.dtoAsModel()))
                 }
 
                 override fun onFailure(call: Call<TrackByAlbumResponse>, t: Throwable) {
-                    trySend(t.message)
+                    trySend(Resource.error(t.message ?: "Cannot fetch tracks by album", null))
                 }
             })
             awaitClose { this.cancel() }

@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.supdeweb.androidmusicproject.ui.notifications.NotificationsFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.favorite.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_notifications" />
 
@@ -40,6 +40,28 @@
         tools:layout="@layout/fragment_album">
         <action
             android:id="@+id/action_albumFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.rank.adapter.track.TrackFragment"
+        android:label="TrackFragment"
+        tools:layout="@layout/fragment_track">
+        <action
+            android:id="@+id/action_trackFragment_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.details.artist.ArtistDetailFragment"
+        android:label="ArtistDetailFragment"
+        tools:layout="@layout/fragment_artist_detail">
+        <argument
+            android:name="artistId"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_artistDetailFragment_to_albumDetailFragment"
             app:destination="@id/albumDetailFragment" />
     </fragment>
 </navigation>

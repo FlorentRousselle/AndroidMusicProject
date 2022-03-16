@@ -22,6 +22,7 @@ fun List<TrendingDto>.albumDtoAsModel(): List<AlbumModel> {
             chartPlace = it.intChartPlace?.toInt(),
             score = null,
             scoreVotes = null,
+            year = null,
         )
     }
 }

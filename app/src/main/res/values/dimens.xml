@@ -4,7 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Corner Radius -->
-    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="corner_radius_m">8dp</dimen>
+    <dimen name="corner_radius_xl">25dp</dimen>
 
     <!-- Text -->
     <dimen name="text_size_xxx_big">32sp</dimen>
