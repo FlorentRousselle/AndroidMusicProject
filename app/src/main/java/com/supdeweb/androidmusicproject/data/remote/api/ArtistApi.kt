@@ -17,9 +17,18 @@ interface ArtistApi {
         @Query("i") artistId: String,
     ): Call<ArtistDetailResponse>
 
+    /**
+     *
+     */
+    @GET(SEARCH_ARTIST)
+    fun getArtistsByName(
+        @Query("s") artistName: String,
+    ): Call<ArtistDetailResponse>
+
     companion object {
         //ALBUM
         private const val ARTIST_DETAIL = "artist.php"
+        private const val SEARCH_ARTIST = "search.php"
     }
 }
 

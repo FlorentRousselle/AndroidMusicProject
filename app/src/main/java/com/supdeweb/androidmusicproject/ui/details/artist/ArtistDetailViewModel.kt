@@ -79,7 +79,6 @@ class ArtistDetailViewModel(
     fun refreshData() {
         observeArtistDetail()
         observeAlbumsByArtist()
-        observeTopTracks()
     }
 
     /**
@@ -101,6 +100,7 @@ class ArtistDetailViewModel(
                                 artist = it.data
                             )
                         )
+                        observeTopTracks()
                     }
                     Status.ERROR -> {
                         artistFlow.emit(

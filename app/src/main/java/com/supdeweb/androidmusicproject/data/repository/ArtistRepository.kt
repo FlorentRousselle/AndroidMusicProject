@@ -7,6 +7,7 @@ import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectD
 import com.supdeweb.androidmusicproject.data.local.entity.ArtistEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.asEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.asModel
+import com.supdeweb.androidmusicproject.data.local.mapper.dtoAsModel
 import com.supdeweb.androidmusicproject.data.local.mapper.entitiesAsModel
 import com.supdeweb.androidmusicproject.data.model.ArtistModel
 import com.supdeweb.androidmusicproject.data.remote.ApiUtils
@@ -90,6 +91,24 @@ class ArtistRepository(
 
                 override fun onFailure(call: Call<ArtistDetailResponse>, t: Throwable) {
                     trySend(Resource.error(t.message ?: "Cannot fetch artist detail", null))
+                }
+            })
+            awaitClose { this.cancel() }
+        }
+    }
+
+    fun fetchArtistsByName(artistName: String): Flow<Resource<List<ArtistModel>?>> {
+        return callbackFlow {
+            artistApi.getArtistsByName(artistName).enqueue(object : Callback<ArtistDetailResponse> {
+                override fun onResponse(
+                    call: Call<ArtistDetailResponse>,
+                    response: Response<ArtistDetailResponse>,
+                ) {
+                    trySend(Resource.success(response.body()?.artists?.dtoAsModel()))
+                }
+
+                override fun onFailure(call: Call<ArtistDetailResponse>, t: Throwable) {
+                    trySend(Resource.error(t.message ?: "Cannot fetch artists by name", null))
                 }
             })
             awaitClose { this.cancel() }

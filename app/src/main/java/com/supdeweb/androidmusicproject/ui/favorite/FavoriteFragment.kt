@@ -21,8 +21,6 @@ import com.supdeweb.androidmusicproject.domain.features.album.ObserveFavoriteAlb
 import com.supdeweb.androidmusicproject.domain.features.artist.ObserveFavoriteArtistsUseCase
 import com.supdeweb.androidmusicproject.ui.details.album.AlbumDetailFragment
 import com.supdeweb.androidmusicproject.ui.details.artist.ArtistDetailFragment.Companion.ARG_ARTIST_DETAIL_ID
-import com.supdeweb.androidmusicproject.ui.rank.RankViewModel
-import com.supdeweb.androidmusicproject.ui.rank.adapter.album.AlbumViewModel
 import com.supdeweb.androidmusicproject.ui.utils.DataStateEnum
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -58,7 +56,7 @@ class FavoriteFragment : Fragment() {
 
 
     /**
-     * init [RankViewModel] with its factories
+     * init [FavoriteViewModel] with its factories
      */
     private fun initViewModel() {
         // init use cases
@@ -75,7 +73,7 @@ class FavoriteFragment : Fragment() {
     }
 
     /**
-     * observe value in [AlbumViewModel]
+     * observe value in [FavoriteViewModel]
      */
     private fun observeViewModel() {
         lifecycleScope.launchWhenStarted {

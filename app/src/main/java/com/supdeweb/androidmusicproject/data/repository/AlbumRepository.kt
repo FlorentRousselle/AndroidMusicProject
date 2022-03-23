@@ -121,19 +121,39 @@ class AlbumRepository(
         }
     }
 
-    fun fetchAlbumsByArtist(artistId: String): Flow<Resource<List<AlbumModel>?>> {
+    fun fetchAlbumsByArtistId(artistId: String): Flow<Resource<List<AlbumModel>?>> {
         return callbackFlow {
-            albumApi.getAlbumsByArtist(artistId).enqueue(object : Callback<GetAlbumDetailResponse> {
-                override fun onResponse(
-                    call: Call<GetAlbumDetailResponse>,
-                    response: Response<GetAlbumDetailResponse>,
-                ) {
-                    trySend(Resource.success(response.body()?.album?.dtoAsModel()))
-                }
+            albumApi.getAlbumsByArtistId(artistId)
+                .enqueue(object : Callback<GetAlbumDetailResponse> {
+                    override fun onResponse(
+                        call: Call<GetAlbumDetailResponse>,
+                        response: Response<GetAlbumDetailResponse>,
+                    ) {
+                        trySend(Resource.success(response.body()?.album?.dtoAsModel()))
+                    }
 
-                override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
-                    trySend(Resource.error(t.message ?: "Cannot fetch albums by artist", null))
-                }
+                    override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
+                        trySend(Resource.error(t.message ?: "Cannot fetch albums by artist", null))
+                    }
+                })
+            awaitClose { this.cancel() }
+        }
+    }
+
+    fun fetchAlbumsByArtistName(artistName: String): Flow<Resource<List<AlbumModel>?>> {
+        return callbackFlow {
+            albumApi.getAlbumsByArtistName(artistName)
+                .enqueue(object : Callback<GetAlbumDetailResponse> {
+                    override fun onResponse(
+                        call: Call<GetAlbumDetailResponse>,
+                        response: Response<GetAlbumDetailResponse>,
+                    ) {
+                        trySend(Resource.success(response.body()?.album?.dtoAsModel()))
+                    }
+
+                    override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
+                        trySend(Resource.error(t.message ?: "Cannot fetch albums by artist", null))
+                    }
             })
             awaitClose { this.cancel() }
         }

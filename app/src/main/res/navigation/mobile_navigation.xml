@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.supdeweb.androidmusicproject.ui.dashboard.DashboardFragment"
+        android:name="com.supdeweb.androidmusicproject.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 

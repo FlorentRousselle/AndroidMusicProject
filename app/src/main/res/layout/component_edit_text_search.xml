@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_background_grey"
+        android:padding="@dimen/spacing_xs">
+
+        <ImageView
+            android:id="@+id/componentEditTextSearch_iv_search"
+            android:layout_width="@dimen/spacing_s"
+            android:layout_height="@dimen/spacing_s"
+            android:src="@drawable/ic_baseline_search_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/grey"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/componentEditTextSearch_et_fill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xs"
+            android:layout_marginEnd="@dimen/spacing_s"
+            android:background="@null"
+            android:hint="@string/fragmentSearch_et_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_s_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/componentEditTextSearch_iv_close"
+            app:layout_constraintStart_toEndOf="@+id/componentEditTextSearch_iv_search"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/componentEditTextSearch_iv_close"
+            android:layout_width="@dimen/spacing_s"
+            android:layout_height="@dimen/spacing_s"
+            android:src="@drawable/ic_baseline_close"
+            android:layout_marginEnd="@dimen/spacing_xs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

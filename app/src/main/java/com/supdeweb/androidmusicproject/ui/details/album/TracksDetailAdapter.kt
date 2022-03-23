@@ -31,6 +31,8 @@ class TracksDetailAdapter : ListAdapter<TrackModel, TracksDetailAdapter.TrackVie
         }
     }
 
+    override fun getItemCount() = currentList.size
+
     class TrackViewHolder(var binding: AdapterTrackDetailItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 

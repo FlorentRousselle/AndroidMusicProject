@@ -191,12 +191,11 @@ class ArtistDetailFragment : Fragment() {
 
                     binding.fragmentArtistDetailTvArtistDesc.text = it.artist?.description
                     binding.fragmentArtistDetailTvArtistName.text = it.artist?.name
-                    binding.fragmentArtistDetailTvArtistCountry.text = it.artist?.country
                     binding.fragmentArtistDetailTvArtistCountry.text =
                         getString(
                             R.string.fragmentArtistDetail_tv_label_country,
-                            it.artist?.country,
-                            it.artist?.genre
+                            it.artist?.country ?: "",
+                            it.artist?.genre ?: ""
                         )
                     it.artist?.imageUrl?.let { url -> initHeaderBackground(url) }
                     it.artist?.isFavorite?.let { isFav -> initFavoriteIcon(isFav) }
@@ -259,10 +258,14 @@ class ArtistDetailFragment : Fragment() {
                 }
                 DataStateEnum.SUCCESS -> {
                     binding.fragmentArtistDetailPb.visibility = View.GONE
-                    binding.fragmentArtistDetailLlTracks.visibility =
-                        if (it.tracks.isNullOrEmpty()) View.GONE else View.VISIBLE
-
-                    adapter.submitList(it.tracks)
+                    if (it.tracks.isNullOrEmpty()) {
+                        binding.fragmentArtistDetailLlTracks.visibility =
+                            View.GONE
+                    } else {
+                        binding.fragmentArtistDetailLlTracks.visibility =
+                            View.VISIBLE
+                        adapter.submitList(it.tracks)
+                    }
                 }
             }
         }

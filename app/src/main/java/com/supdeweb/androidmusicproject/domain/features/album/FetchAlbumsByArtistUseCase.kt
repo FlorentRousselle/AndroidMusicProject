@@ -13,7 +13,7 @@ class FetchAlbumsByArtistUseCase(
     private val albumRepo: AlbumRepository,
 ) {
     suspend operator fun invoke(artist: String): Flow<Resource<List<AlbumModel>?>> {
-        val fetchedAlbums = albumRepo.fetchAlbumsByArtist(artist).first()
+        val fetchedAlbums = albumRepo.fetchAlbumsByArtistId(artist).first()
         return when (fetchedAlbums.status) {
             Status.SUCCESS -> {
                 fetchedAlbums.data?.modelAsEntity()?.let {

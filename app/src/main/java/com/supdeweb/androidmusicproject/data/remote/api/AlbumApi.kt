@@ -33,8 +33,16 @@ interface AlbumApi {
      *
      */
     @GET(ALBUM_DETAIL)
-    fun getAlbumsByArtist(
+    fun getAlbumsByArtistId(
         @Query("i") artistId: String,
+    ): Call<GetAlbumDetailResponse>
+
+    /**
+     *
+     */
+    @GET(SEARCH_ALBUMS_BY_ARTIST)
+    fun getAlbumsByArtistName(
+        @Query("s") artistName: String,
     ): Call<GetAlbumDetailResponse>
 
 
@@ -43,6 +51,7 @@ interface AlbumApi {
         private const val ALBUMS = "mostloved.php?format=album"
         private const val ALBUM_DETAIL = "album.php"
         private const val TRENDING_ALBUMS = "trending.php?country=us&type=itunes&format=albums"
+        private const val SEARCH_ALBUMS_BY_ARTIST = "searchalbum.php"
     }
 }
 
