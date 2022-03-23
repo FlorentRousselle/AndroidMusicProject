@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/componentEditTextSearch_iv_search"
-            android:layout_width="@dimen/spacing_s"
-            android:layout_height="@dimen/spacing_s"
+            android:layout_width="@dimen/spacing_m"
+            android:layout_height="@dimen/spacing_m"
             android:src="@drawable/ic_baseline_search_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="@dimen/text_size_s_medium"
+            android:textSize="@dimen/text_size_s_big"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/componentEditTextSearch_iv_close"
             app:layout_constraintStart_toEndOf="@+id/componentEditTextSearch_iv_search"
@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/componentEditTextSearch_iv_close"
-            android:layout_width="@dimen/spacing_s"
-            android:layout_height="@dimen/spacing_s"
+            android:layout_width="@dimen/spacing_m"
+            android:layout_height="@dimen/spacing_m"
             android:src="@drawable/ic_baseline_close"
             android:layout_marginEnd="@dimen/spacing_xs"
             app:layout_constraintBottom_toBottomOf="parent"
