@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.WorkerThread
 import com.supdeweb.androidmusicproject.data.local.dao.AlbumDao
 import com.supdeweb.androidmusicproject.data.local.database.AndroidMusicProjectDatabase
-import com.supdeweb.androidmusicproject.data.local.datastore.AndroidMusicDataStore
 import com.supdeweb.androidmusicproject.data.local.entity.AlbumEntity
 import com.supdeweb.androidmusicproject.data.local.mapper.*
 import com.supdeweb.androidmusicproject.data.model.AlbumModel
@@ -29,7 +28,6 @@ import retrofit2.Response
 class AlbumRepository(
     private val albumDao: AlbumDao,
     private val albumApi: AlbumApi,
-    private val datastore: AndroidMusicDataStore,
 ) {
 
     // OBSERVE
@@ -154,7 +152,7 @@ class AlbumRepository(
                     override fun onFailure(call: Call<GetAlbumDetailResponse>, t: Throwable) {
                         trySend(Resource.error(t.message ?: "Cannot fetch albums by artist", null))
                     }
-            })
+                })
             awaitClose { this.cancel() }
         }
     }
@@ -171,11 +169,9 @@ class AlbumRepository(
                 if (instance == null) {
                     val db: AndroidMusicProjectDatabase =
                         AndroidMusicProjectDatabase.getInstance(context)
-                    val datastore = AndroidMusicDataStore(context)
                     val repo = AlbumRepository(
                         db.albumDao,
                         ApiUtils.albumApi,
-                        datastore
                     )
                     instance = repo
                     INSTANCE = instance

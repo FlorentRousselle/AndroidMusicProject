@@ -32,10 +32,6 @@ class ArtistRepository(
     private val artistApi: ArtistApi,
 ) {
 
-    // OBSERVE
-    fun observeAllArtists(): Flow<List<ArtistModel>> {
-        return artistDao.observeArtists().map { it.entitiesAsModel() }
-    }
 
     fun observeArtistById(artistId: String): Flow<Resource<ArtistModel>> {
         return artistDao.observeArtistById(artistId)
@@ -61,19 +57,9 @@ class ArtistRepository(
         artistDao.insertArtist(artist)
     }
 
-    @WorkerThread
-    suspend fun insertAllArtists(artists: List<ArtistEntity>) {
-        artistDao.insertAllArtists(artists)
-    }
-
     //UPDATE
     suspend fun updateArtist(artist: ArtistModel) {
         artistDao.update(artist.asEntity())
-    }
-
-    //DELETE
-    suspend fun deleteAllArtists() {
-        artistDao.deleteAll()
     }
 
 

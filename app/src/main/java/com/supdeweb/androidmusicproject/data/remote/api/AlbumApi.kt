@@ -9,11 +9,6 @@ import retrofit2.http.Query
 
 interface AlbumApi {
 
-    /**
-     * Albums
-     */
-    @GET(ALBUMS)
-    suspend fun getAlbums(): AlbumResponse
 
     /**
      * Trending albumDtos
@@ -48,18 +43,11 @@ interface AlbumApi {
 
     companion object {
         //ALBUM
-        private const val ALBUMS = "mostloved.php?format=album"
         private const val ALBUM_DETAIL = "album.php"
         private const val TRENDING_ALBUMS = "trending.php?country=us&type=itunes&format=albums"
         private const val SEARCH_ALBUMS_BY_ARTIST = "searchalbum.php"
     }
 }
-
-data class AlbumResponse(
-    @SerializedName("loved")
-    @Expose
-    val albums: List<AlbumDto>? = null,
-)
 
 data class GetAlbumDetailResponse(
     @SerializedName("album")

@@ -9,11 +9,6 @@ import retrofit2.http.Query
 
 interface TrackApi {
 
-    /**
-     * get tracks
-     */
-    @GET(TRACKS)
-    suspend fun getTracks(): TrackResponse
 
     /**
      * get trending tracks
@@ -40,18 +35,11 @@ interface TrackApi {
 
     companion object {
         //TRACK
-        private const val TRACKS = "mostloved.php?format=track"
         private const val TRACKS_ALBUM = "track.php"
         private const val TRENDING_TRACKS = "trending.php?country=us&type=itunes&format=singles"
         private const val TOP_TRACKS_ARTIST = "track-top10.php"
     }
 }
-
-data class TrackResponse(
-    @SerializedName("loved")
-    @Expose
-    val tracks: List<TrackDto>? = null,
-)
 
 
 data class TrackListResponse(
