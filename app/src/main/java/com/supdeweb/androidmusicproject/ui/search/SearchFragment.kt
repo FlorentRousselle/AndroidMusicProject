@@ -56,7 +56,11 @@ class SearchFragment : Fragment() {
                     textChangedJob = lifecycleScope.launch(Dispatchers.Main) {
                         delay(500L)
                         if (searchText == searchFor) {
+                            adapter.items = emptyList()
                             viewModel.observeArtistsByName(searchText)
+                            if (binding.fragmentSearchVSearch.componentEditTextSearchEtFill.text.isEmpty()) {
+                                adapter.items = emptyList()
+                            }
                         }
                     }
                 }
