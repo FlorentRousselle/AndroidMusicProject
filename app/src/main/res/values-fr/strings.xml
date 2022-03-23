@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidMusicProject</string>
+    <string name="title_rank">Classement</string>
+    <string name="title_search">Rechercher</string>
+    <string name="title_favorite">Favoris</string>
+    <string name="menuDetail_item_favorite">Favoris</string>
+    <string name="button_label_error_retry">Réessayer</string>
+    <string name="fragmentAlbumDetail_tv_label_tracks">Titres</string>
+    <string name="fragmentArtistDetail_tv_label_albums">Albums (%1$d)</string>
+    <string name="fragmentFavorite_tv_label_artists">Artistes</string>
+    <string name="fragmentFavorite_tv_label_emptyList">La liste est vide, il faut aller liker</string>
+    <string name="fragmentSearch_tv_label_emptyList">Pas d\'artiste détecté, recherche avec un autre nom</string>
+    <string name="fragmentAlbumDetail_tv_label_albumVotes">%1$d votes</string>
+    <string name="fragmentAlbumDetail_tv_label_tracksNumber">%1$d pistes</string>
+    <string name="fragmentArtistDetail_tv_label_country">%1$s - %2$s</string>
+    <string name="fragmentArtistDetail_tv_label_topTracks">Titres les plus appréciés</string>
+    <string name="fragmentFavorite_tb_title">Mes albums &amp; artistes</string>
+    <string name="fragmentRank_tabLayout_title_tracks">Titres</string>
+    <string name="fragmentRank_tabLayout_title_albums">Albums</string>
+    <string name="fragmentSearch_et_hint">Recherche un artiste ici</string>
+</resources>

@@ -56,7 +56,6 @@ class SearchFragment : Fragment() {
                     textChangedJob = lifecycleScope.launch(Dispatchers.Main) {
                         delay(500L)
                         if (searchText == searchFor) {
-                            adapter.items = emptyList()
                             viewModel.observeArtistsByName(searchText)
                         }
                     }
@@ -194,7 +193,7 @@ class SearchFragment : Fragment() {
                         binding.fragmentSearchTvEmptyList.visibility = View.VISIBLE
                     } else {
                         binding.fragmentSearchTvEmptyList.visibility = View.GONE
-                        adapter.items += listOf("Artist")
+                        adapter.items += listOf(getString(R.string.fragmentFavorite_tv_label_artists))
                         adapter.items += it.artists
                     }
                 }
@@ -223,7 +222,7 @@ class SearchFragment : Fragment() {
                     binding.fragmentSearchLlError.visibility = View.GONE
                     if (!it.albums.isNullOrEmpty()) {
                         binding.fragmentSearchTvEmptyList.visibility = View.GONE
-                        adapter.items += listOf("Albums")
+                        adapter.items += listOf(getString(R.string.fragmentRank_tabLayout_title_albums))
                         adapter.items += it.albums
                     }
                 }
