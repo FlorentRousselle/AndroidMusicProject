@@ -23,17 +23,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-// Declares the DAO as a private property in the constructor. Pass in the DAO
-// instead of the whole database, because you only need access to the DAO
 class AlbumRepository(
     private val albumDao: AlbumDao,
     private val albumApi: AlbumApi,
 ) {
-
-    // OBSERVE
-    fun observeAllAlbums(): Flow<List<AlbumModel>> {
-        return albumDao.observeAlbums().map { it.entitiesAsModel() }
-    }
 
     fun observeAlbumById(albumId: String): Flow<Resource<AlbumModel>> {
         return albumDao.observeAlbumById(albumId)
@@ -65,19 +58,10 @@ class AlbumRepository(
         albumDao.insertAlbum(album)
     }
 
-    @WorkerThread
-    suspend fun insertAllAlbums(albums: List<AlbumEntity>) {
-        albumDao.insertAllAlbums(albums)
-    }
 
     //UPDATE
     suspend fun updateAlbum(album: AlbumModel) {
         albumDao.update(album.asEntity())
-    }
-
-    //DELETE
-    suspend fun deleteAllAlbums() {
-        albumDao.deleteAll()
     }
 
 
