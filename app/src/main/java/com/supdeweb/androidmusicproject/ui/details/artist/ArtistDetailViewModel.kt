@@ -100,7 +100,6 @@ class ArtistDetailViewModel(
                                 artist = it.data
                             )
                         )
-                        observeTopTracks()
                     }
                     Status.ERROR -> {
                         artistFlow.emit(
@@ -141,6 +140,7 @@ class ArtistDetailViewModel(
                                 albums = it.data
                             )
                         )
+                        observeTopTracks()
                     }
                     Status.ERROR -> {
                         albumsFlow.emit(
